@@ -1,10 +1,4 @@
 # underground
-# 
-Mongo database:
-  store & upload places
-  find places based on parameters
-  Users
-# Models
 
 ## Users
 - firstname
@@ -20,3 +14,6 @@ Mongo database:
 - tag(s)
 - description
 - string address
+
+
+
