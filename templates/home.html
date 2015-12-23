@@ -1,22 +1,70 @@
 <!DOCTYPE html>
 <html>
-<head>
-<meta charset=utf-8 />
-<title>underground</title>
-<meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
-<script src='https://api.mapbox.com/mapbox.js/v2.2.3/mapbox.js'></script>
-<link href='https://api.mapbox.com/mapbox.js/v2.2.3/mapbox.css' rel='stylesheet' />
-<style>
-  body { margin:0; padding:0; }
-  #map { position:absolute; top:0; bottom:0; width:100%; }
-</style>
-</head>
-<body>
-<div id='map'></div>
-<script>
-L.mapbox.accessToken = 'pk.eyJ1IjoiY2thdWJpc2NoIiwiYSI6ImNpaWJ2eGE2dzAxa3B3ZWx6NWYwZGx1dWIifQ.jSuKW32Avl_d3_TB2JqGlA';
-var map = L.mapbox.map('map', 'mapbox.streets')
-    .setView([40, -74.50], 9);
-</script>
-</body>
+  <head>
+    <meta charset=utf-8 />
+    <title>Single marker</title>
+    <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+    <script src='https://api.mapbox.com/mapbox.js/v2.2.3/mapbox.js'></script>
+    <link href='https://api.mapbox.com/mapbox.js/v2.2.3/mapbox.css' rel='stylesheet' />
+    <style>
+      body { margin:0; padding:0; }
+      #map { position:absolute; top:0; bottom:0; width:100%; z-index: -1; }
+      #button { 
+         position:absolute;
+         z-index: 1;
+      }
+      .css-icon{
+         width: 0;
+         height: 0;
+         border-top: 15px solid transparent;
+         border-bottom: 15px solid transparent;
+         border-left: 15px solid #ff8888;
+      }
+    </style>
+  </head>
+  <body>
+    <div id='map'></div>
+    
+    <script>
+      L.mapbox.accessToken = 'pk.eyJ1IjoiY2thdWJpc2NoIiwiYSI6ImNpaWJ2eGE2dzAxa3B3ZWx6NWYwZGx1dWIifQ.jSuKW32Avl_d3_TB2JqGlA';
+      var map = L.mapbox.map('map', 'mapbox.streets')
+      .setView([40.7127, -74.0059], 10);
+      
+      L.mapbox.featureLayer({
+      type: 'Feature',
+      geometry: {
+      type: 'Point',
+      coordinates: [
+      -74.0059,
+      40.7127
+      ]
+      },
+      properties: {
+      title: 'Peregrine Espresso',
+      description: '1718 14th St NW, Washington, DC',
+      'marker-size': 'large',
+      'marker-color': '#BE9A6B',
+      'marker-symbol': 'restaurant'
+      }
+      }).addTo(map);
+
+    </script>
+    <center>
+      <button id="button"> Add </button>
+      <script>
+	var cssIcon = L.divIcon({
+	   className: 'css-icon',
+	   iconSize: [10, 10]
+	});
+
+	var addThing = function add(e){
+	   console.log("clicked");
+	   L.marker([40.7127, -74.01], {icon: cssIcon}).addTo(map);
+	};
+
+	var button = document.getElementById("button");
+	button.addEventListener('click', addThing);
+      </script>
+    </center>
+  </body>
 </html>
