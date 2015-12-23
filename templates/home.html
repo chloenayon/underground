@@ -52,14 +52,22 @@
     <center>
       <button id="button"> Add </button>
       <script>
+
+	
+	
 	var cssIcon = L.divIcon({
 	   className: 'css-icon',
 	   iconSize: [10, 10]
 	});
 
+	function showPosition(pos){
+	   var a = [pos.coords.latitude, pos.coords.longitude];
+	   L.marker(a, {icon :cssIcon}).addTo(map);
+	};
+	
 	var addThing = function add(e){
 	   console.log("clicked");
-	   L.marker([40.7127, -74.01], {icon: cssIcon}).addTo(map);
+	   navigator.geolocation.getCurrentPosition(showPosition);
 	};
 
 	var button = document.getElementById("button");
