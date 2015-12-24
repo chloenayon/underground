@@ -13,13 +13,7 @@
          position:absolute;
          z-index: 1;
       }
-      .css-icon{
-         width: 0;
-         height: 0;
-         border-top: 15px solid transparent;
-         border-bottom: 15px solid transparent;
-         border-left: 15px solid #ff8888;
-      }
+
     </style>
   </head>
   <body>
@@ -30,39 +24,18 @@
       var map = L.mapbox.map('map', 'mapbox.streets')
       .setView([40.7127, -74.0059], 10);
       
-      L.mapbox.featureLayer({
-      type: 'Feature',
-      geometry: {
-      type: 'Point',
-      coordinates: [
-      -74.0059,
-      40.7127
-      ]
-      },
-      properties: {
-      title: 'Peregrine Espresso',
-      description: '1718 14th St NW, Washington, DC',
-      'marker-size': 'large',
-      'marker-color': '#BE9A6B',
-      'marker-symbol': 'restaurant'
-      }
-      }).addTo(map);
-
     </script>
     <center>
       <button id="button"> Add </button>
       <script>
 
-	
-	
-	var cssIcon = L.divIcon({
-	   className: 'css-icon',
-	   iconSize: [10, 10]
-	});
-
 	function showPosition(pos){
 	   var a = [pos.coords.latitude, pos.coords.longitude];
-	   L.marker(a, {icon :cssIcon}).addTo(map);
+	   L.marker(a, {icon : L.mapbox.marker.icon({
+	         'marker-size': 'medium',
+	         'marker-color': '#FF8888'
+	      })
+	   }).addTo(map);
 	};
 	
 	var addThing = function add(e){
@@ -72,6 +45,7 @@
 
 	var button = document.getElementById("button");
 	button.addEventListener('click', addThing);
+
       </script>
     </center>
   </body>
