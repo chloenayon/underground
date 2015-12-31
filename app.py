@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, session
+from flask import Flask, render_template, request, session, redirect, url_for, escape
 import urllib2, json
 
 app = Flask(__name__)
@@ -8,11 +8,21 @@ B3ZWx6NWYwZGx1dWIifQ.jSuKW32Avl_d3_TB2JqGlA'
 
 @app.route('/', methods = ['GET', 'POST'])
 def begin():
+#    if 'username' in session:
     return render_template("home.html")
 
 @app.route('/login', methods= ['GET', 'POST'])
 def login():
-    return render_template("login.html")
+    if request.method == 'POST':
+#        session['username'] = request.form['username']
+        return redirect(url_for('begin'))
+    else:
+        return render_template("login.html")
+
+@app.route('/logout', methods = ['GET', 'POST'])
+def logout():
+    pass
+      
 
 
 if __name__=="__main__":
