@@ -10,11 +10,20 @@ def go():
         q = """create table members (fname text, lname text, uname text, email text, pwrd text, base text);"""
         c.execute(q)
 
+        #sample member Bob Ross
+        
         q = """insert into members values ("Bob", "Ross", "BobTheRoss", "bobross@bobross.com", "happylittletrees", "bob.db");"""
         c.execute(q)
 
         conn.commit()
 
+        #Sample database for Bob Ross
+
+        conn2 = sqlite3.connect("BobBobTheRoss.db")
+        c2 = conn2.cursor()
+
+        q2 = """create table places (lat real, long real, title text, address text);"""
+        
 #add new member
 def newMember(first, last, user, email, passwd):
     conn = sqlite3.connect(members_db)
@@ -28,7 +37,7 @@ def newMember(first, last, user, email, passwd):
             return false
         else:
             firstname = first.lower()
-            database = "" + firstname + ".db"
+            database = "" + firstname + "" + user  + ".db"
             #Add new user
             q = """insert into members values (%s, %s, %s, %s, %s, %s);"""
             q = q%(first, last, user, email, passwd, database)
@@ -81,5 +90,20 @@ def addPlace(uname, lat, lon, title, address):
     c2.execute(q2)
     conn2.commit()
 
+
+def getPlaces(uname):
+    conn = sqlite3.connect(members_db)
+    c = conn.cursor()
+
+    q = """select base from members where uname = "%s" """
+    q = q%(uname)
+
+    db = c.execute(q)
+
+    conn2 = sqlite3.connect(db)
+    c2 = conn2.cursor()
+
+    q2 = """select * from places""" 
+    
 go()
 
