@@ -44,16 +44,6 @@ def newMember(first, last, user, email, passwd):
             c.execute(q)
             conn.commit()
 
-            #create places database for new user
-            
-            conn2 = sqlite3.connect(database)
-            c2 = conn2.cursor()
-
-            q = """create table places (lat real, long real, title text, address text);"""
-            c2.execute(q)
-
-            conn2.commit()
-
             return true
 
 
@@ -72,7 +62,7 @@ def verify(name, passwd):
         return false
 
 
-def addPlace(uname, lat, lon, title, address):
+def addPlace(uname, lat, lon, titled, address):
     conn = sqlite3.connect(members_db)
     c = conn.cursor()
 
@@ -81,11 +71,22 @@ def addPlace(uname, lat, lon, title, address):
 
     db = c.execute(q)
 
-    conn2 = sqlite3.connect(db)
-    c2 = conn2.cursor()
+    database = ""
     
-    q2 = """insert into places values(%r, %r, %s, %s);"""
-    q2 = q2%(lat, lon, title, address)
+    for a in db:
+        database = a[0]
+        print a[0]
+    
+    conn2 = sqlite3.connect(database)
+    c2 = conn2.cursor()
+
+    q2 = """create table if not exists places (lat real, long real, title text, address text);"""
+
+    c2.execute(q2)
+    conn2.commit()
+    
+    q2 = """insert into places values(%r, %r, "%s", "%s");"""
+    q2 = q2%(lat, lon, titled, address)
 
     c2.execute(q2)
     conn2.commit()
@@ -100,10 +101,25 @@ def getPlaces(uname):
 
     db = c.execute(q)
 
-    conn2 = sqlite3.connect(db)
+    database = ""
+    
+    for a in db:
+        database = a[0]
+        print a[0]
+    
+    conn2 = sqlite3.connect(database)
     c2 = conn2.cursor()
 
-    q2 = """select * from places""" 
+    q2 = """select * from places"""
+
+    thing = c2.execute(q2)
+
+    for a in thing:
+        print a
+
+    return thing
     
 go()
 
+addPlace("BobTheRoss", 40.72, 74.01, "Place", "address")
+getPlaces("BobTheRoss")
