@@ -9,7 +9,7 @@
     <style>
       body { margin:0; padding:0; }
       #map { position:absolute; top:0; bottom:0; width:100%; z-index: -1; }
-      #button { 
+      #button {
          position:absolute;
          z-index: 1;
       }
@@ -17,31 +17,31 @@
   </head>
   <body>
     <div id='map'></div>
-    
+
     <script>
       L.mapbox.accessToken = 'pk.eyJ1IjoiY2thdWJpc2NoIiwiYSI6ImNpaWJ2eGE2dzAxa3B3ZWx6NWYwZGx1dWIifQ.jSuKW32Avl_d3_TB2JqGlA';
       var map = L.mapbox.map('map', 'mapbox.streets')
       .setView([40.7127, -74.0059], 12);
-      
+
     </script>
     <center>
       <button id="button"> Add </button>
       <script>
-	function showPosition(pos){
-	   var a = [pos.coords.latitude, pos.coords.longitude];
-	   L.marker(a, {icon : L.mapbox.marker.icon({
-	         'marker-size': 'medium',
-	         'marker-color': '#FF8888'
-	      })
-	   }).addTo(map);
-	};
-	
-	var addThing = function add(e){
-	   console.log("clicked");
-	   navigator.geolocation.getCurrentPosition(showPosition);
-	};
-	var button = document.getElementById("button");
-	button.addEventListener('click', addThing);
+        function showPosition(pos){
+           var a = [pos.coords.latitude, pos.coords.longitude];
+           L.marker(a, {icon : L.mapbox.marker.icon({
+                 'marker-size': 'medium',
+                 'marker-color': '#FF8888'
+              })
+           }).addTo(map);
+        };
+
+        var addThing = function add(e){
+           console.log("clicked");
+           navigator.geolocation.getCurrentPosition(showPosition);
+        };
+        var button = document.getElementById("button");
+        button.addEventListener('click', addThing);
       </script>
     </center>
 
@@ -61,3 +61,5 @@
     {% endfor  %}
   </body>
 </html>
+
+

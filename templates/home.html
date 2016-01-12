@@ -13,7 +13,6 @@
          position:absolute;
          z-index: 1;
       }
-
     </style>
   </head>
   <body>
@@ -22,13 +21,12 @@
     <script>
       L.mapbox.accessToken = 'pk.eyJ1IjoiY2thdWJpc2NoIiwiYSI6ImNpaWJ2eGE2dzAxa3B3ZWx6NWYwZGx1dWIifQ.jSuKW32Avl_d3_TB2JqGlA';
       var map = L.mapbox.map('map', 'mapbox.streets')
-      .setView([40.7127, -74.0059], 10);
+      .setView([40.7127, -74.0059], 12);
       
     </script>
     <center>
       <button id="button"> Add </button>
       <script>
-
 	function showPosition(pos){
 	   var a = [pos.coords.latitude, pos.coords.longitude];
 	   L.marker(a, {icon : L.mapbox.marker.icon({
@@ -42,10 +40,8 @@
 	   console.log("clicked");
 	   navigator.geolocation.getCurrentPosition(showPosition);
 	};
-
 	var button = document.getElementById("button");
 	button.addEventListener('click', addThing);
-
       </script>
     </center>
   </body>

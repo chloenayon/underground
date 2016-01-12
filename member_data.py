@@ -75,7 +75,7 @@ def addPlace(uname, lat, lon, titled, address):
     
     for a in db:
         database = a[0]
-        print a[0]
+ #       print a[0]
     
     conn2 = sqlite3.connect(database)
     c2 = conn2.cursor()
@@ -105,7 +105,7 @@ def getPlaces(uname):
     
     for a in db:
         database = a[0]
-        print a[0]
+#        print a[0]
     
     conn2 = sqlite3.connect(database)
     c2 = conn2.cursor()
@@ -114,12 +114,11 @@ def getPlaces(uname):
 
     thing = c2.execute(q2)
 
-    for a in thing:
-        print a
+#    for a in thing:
+#        print a
 
     return thing
     
 go()
+addPlace("BobTheRoss", 17.0836, 22.5700, "here", "wherever")
 
-addPlace("BobTheRoss", 40.72, 74.01, "Place", "address")
-getPlaces("BobTheRoss")
