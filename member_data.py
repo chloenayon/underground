@@ -120,5 +120,5 @@ def getPlaces(uname):
     return thing
     
 go()
-addPlace("BobTheRoss", 17.0836, 22.5700, "here", "wherever")
+addPlace("BobTheRoss", -73.5, 120, "here", "wherever")
 

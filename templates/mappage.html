@@ -25,7 +25,10 @@
 
     </script>
     <center>
-      <button id="button"> Add </button>
+      <form method="POST">
+	<button id="button"> Add </button>
+	<input type="hidden" value=""></input>
+      </form>
       <script>
         function showPosition(pos){
            var a = [pos.coords.latitude, pos.coords.longitude];
@@ -53,7 +56,7 @@
            L.marker(b, {icon : L.mapbox.marker.icon({
                  'marker-size': 'medium',
                  'marker-color': '#FF8888'
-          })
+          }), title: {{item[3]}}
      }).addTo(map);
 
      </script>
