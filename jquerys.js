@@ -5,7 +5,8 @@ var dothing = function(e){
 
 function showPosition(pos){
     var a = [pos.coords.latitude, pos.coords.longitude];
-    return a;
+    obj = document.forms['newPlace'];
+    obj.elements["location"].value = a;
 };
 
 var addThing = function add(e){

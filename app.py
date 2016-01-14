@@ -18,7 +18,7 @@ def begin():
 @app.route('/login', methods= ["GET", "POST"])
 def login():
     if request.method == "GET":
-        return render_template("login.html")
+        return render_template("mappage.html")
     else:
         human = request.form["person"]
         list = member_data.getPlaces(human)
