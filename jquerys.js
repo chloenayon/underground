@@ -12,3 +12,5 @@ function showPosition(pos){
 var addThing = function add(e){
     navigator.geolocation.getCurrentPosition(showPosition);
 };
+
+$("#location").val(addThing);

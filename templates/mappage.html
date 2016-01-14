@@ -14,6 +14,7 @@
          z-index: 1;
       }
     </style>
+    <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
   </head>
   <body>
     <div id='map'></div>
@@ -25,17 +26,20 @@
 
     </script>
     <center>
-      <form method="GET">
+      <form method="POST">
 	<button id="button"> Add </button>
-	<input type="hidden" value=""></input>
+	<input id="location" type="hidden" value=""></input>
       </form>
       <script>
-        function showPosition(pos){
+
+	$("#location").val(addThing);
+
+	function showPosition(pos){
            var a = [pos.coords.latitude, pos.coords.longitude];
        	   obj = document.forms['newPlace'];
            obj.elements["location"].value = a;
-           console.log(a);
-<!--
+        console.log(a);
+	<!--
            L.marker(a, {icon : L.mapbox.marker.icon({
                  'marker-size': 'medium',
                  'marker-color': '#FF8888'
@@ -47,8 +51,11 @@
         var addThing = function add(e){
            navigator.geolocation.getCurrentPosition(showPosition);
         };
+	<!--
         var button = document.getElementById("button");
         button.addEventListener('click', addThing);
+
+-->
       </script>
     </center>
 
