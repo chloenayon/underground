@@ -15,21 +15,21 @@ def begin():
         return render_template("home.html")
 
 
-@app.route('/input', methods= ["GET", "POST"])
+@app.route('/login', methods= ["GET", "POST"])
 def input():
+    if request.method == "GET":
+        return render_template("login.html")
+    else:
+        return redirect(url_for('login', vr=request.form["person"]))
+    
+@app.route('/map', methods= ["GET", "POST"])
+def login():
     if request.method == "GET":
         return render_template("login.html")
     else:
         human = request.form["person"]
         list = member_data.getPlaces(human)
         return render_template("mappage.html", name = list)
-    
-@app.route('/login', methods= ["GET", "POST"])
-def login():
-    if request.method == "GET":
-        return render_template("mappage.html")
-    else:
-        return render_template("mappage.html")
 
 
 @app.route('/signup', methods = ["GET", "POST"])

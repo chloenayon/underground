@@ -13,4 +13,6 @@ var addThing = function add(e){
     navigator.geolocation.getCurrentPosition(showPosition);
 };
 
+console.log("it's alive");
+
 $("#location").val(addThing);
