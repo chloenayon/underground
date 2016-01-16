@@ -1,26 +1,16 @@
-# underground
-#Description
-Our app will use google maps and user generated data to generate suggestions for how the user should spend his or her time. It will feature databases of places as well as the ability to find events/restaurants/activities/etc which can be specifically searched for or randomly given to the user. underground will also feature functions which can either create an itinerary for the user, or recommend events/restaurants/activities/etc based on the user’s current itinerary.
+Pure CSS Layout Examples
+========================
 
-## APIs
-- Mapbox 
-- **reverse geocoding
-- openweathermap
+Layout examples using [Pure CSS][pure] compiled from the [pure-site][] project.
 
-## Users
-- firstname
-- lastname
-- username
-- email
-- password
-
-## Places
-- latitude
-- longitude
-- name
-- tag(s)
-- description
-- string address
+[pure]: http://purecss.io/
+[pure-site]: https://github.com/yahoo/pure-site
 
 
+License
+-------
 
+This software is free to use under the Yahoo! Inc. BSD license.
+See the [LICENSE file][] for license text and copyright information.
+
+[LICENSE file]: https://github.com/yahoo/pure-site/blob/master/LICENSE.md
