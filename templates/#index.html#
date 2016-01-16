@@ -50,15 +50,15 @@
 	    {% if s.logged_in %}
 	    <p style="color:white">Welcome {{s.Uname}}</p>
 		{% else %}
-<form class="pure-form pure-g">
+<form class="pure-form">
 
     <fieldset>
 
-        <input id="email" type="email" placeholder="Email">
-        <input id="password" type="password" placeholder="Password">
+        <input  style="padding:0 1" id="uname" type="unaame" placeholder="Username">
+        <input  style="padding:0 1" id="password" type="password" placeholder="Password">
 
         <label for="remember" class="pure-checkbox" style="color:white">
-            <input id="remember" type="checkbox"> Remember me
+            <input style="align:left" id="remember" type="checkbox"> Remember me
         </label>
 
         <button type="submit" class="pure-button pure-button-primary">Sign in</button>
@@ -75,8 +75,7 @@
                     <li class="pure-menu-heading">Search By</li>
                     <li class="pure-menu-item"><a href="#" class="pure-menu-link"><span class="email-label-personal"></span>Personal</a></li>
                     <li class="pure-menu-item"><a href="#" class="pure-menu-link"><span class="email-label-work"></span>Work</a></li>
-		    <li class="pure-menu-item"><a href="#" class="pure-menu-link"><span class="email-label-liked"></span></a>Liked</li>
-                    <li class="pure-menu-item"><a href="#" class="pure-menu-link"><span class="email-label-want-to-go"></span>Want To Go</a></li>
+		    <li class="pure-menu-item"><a href="#" class="pure-menu-link"><span class="email-label-travel"></span>Want To Go</a></li>
                 </ul>
             </div>
         </div>
@@ -193,29 +192,15 @@
                 </div>
 
                 <div class="email-content-controls pure-u-1-2">
-                    <button class="secondary-button pure-button">Reply</button>
-                    <button class="secondary-button pure-button">Forward</button>
-                    <button class="secondary-button pure-button">Move to</button>
+                    <button id="star" class="secondary-button pure-button">Star</button>
+                    <button id="add" class="secondary-button pure-button">Add To Map</button>
                 </div>
             </div>
 
             <div class="email-content-body">
                 <p>
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                </p>
-                <p>
-                    Duis aute irure dolor in reprehenderit in voluptate velit essecillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-                </p>
-                <p>
-                    Aliquam ac feugiat dolor. Proin mattis massa sit amet enim iaculis tincidunt. Mauris tempor mi vitae sem aliquet pharetra. Fusce in dui purus, nec malesuada mauris. Curabitur ornare arcu quis mi blandit laoreet. Vivamus imperdiet fermentum mauris, ac posuere urna tempor at. Duis pellentesque justo ac sapien aliquet egestas. Morbi enim mi, porta eget ullamcorper at, pharetra id lorem.
-                </p>
-                <p>
-                    Donec sagittis dolor ut quam pharetra pretium varius in nibh. Suspendisse potenti. Donec imperdiet, velit vel adipiscing bibendum, leo eros tristique augue, eu rutrum lacus sapien vel quam. Nam orci arcu, luctus quis vestibulum ut, ullamcorper ut enim. Morbi semper erat quis orci aliquet condimentum. Nam interdum mauris sed massa dignissim rhoncus.
-                </p>
-                <p>
-                    Regards,<br>
-                    Tilo
-                </p>
+                  Reviews for the place go here
+		</p>
             </div>
         </div>
     </div>
