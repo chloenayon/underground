@@ -33,7 +33,7 @@ def newMember(first, last, user, email, passwd):
     
     #check for username doubles
     for a in c.execute(q):
-        if a.lower() == user.lower():
+        if a[0] == user:
             return false
         else:
             firstname = first.lower()
@@ -54,12 +54,13 @@ def verify(name, passwd):
     q = """ select pwrd from members where uname = "%s" """
     q = q%(name)
 
-    a = c.execute(q)
+    x = c.execute(q)
     
-    if a[0] == pwrd:
-        return true
-    else:
-        return false
+    for a in x: 
+        if a[0] == passwd:
+            return True
+    
+    return False
 
 
 def addPlace(uname, lat, lon, titled, address):
