@@ -30,22 +30,28 @@ def login():
 
 @app.route('/signup', methods=["GET", "POST"])
 def signup():
-    if request.method == "GET":
-        return render_template("signup.html")
+    if session['logged'] == False:
+        return redirect(url_for('login'))
     else:
-        if (member_data.newMember(request.form['first'], request.form['last'], request.form['user'], request.form['mail'], request.form['pass'])):
-            return redirect(url_for('login'))
-        else:
+        if request.method == "GET":
             return render_template("signup.html")
+        else:
+            if (member_data.newMember(request.form['first'], request.form['last'], request.form['user'], request.form['mail'], request.form['pass'])):
+                return redirect(url_for('login'))
+            else:
+                return render_template("signup.html")
 
 @app.route('/map', methods= ["GET", "POST"])
 def map():
-    if request.method == "GET":
-        return render_template("mappage.html", name = session['username'])
+    if session['logged'] == False:
+        return redirect(url_for('login'))
     else:
-        human = request.form["person"]
-        list = member_data.getPlaces(human)
-        return render_template("mappage.html", name = list)
+        if request.method == "GET":
+            return render_template("mappage.html", name = session['username'])
+        else:
+            human = request.form["person"]
+            list = member_data.getPlaces(human)
+            return render_template("mappage.html", name = list)
 
 @app.route('/logout', methods = ["GET", "POST"])
 def logout():
