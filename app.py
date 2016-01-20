@@ -7,7 +7,10 @@ app = Flask(__name__)
 mapKey = 'pk.eyJ1IjoiY2thdWJpc2NoIiwiYSI6ImNpaWJ2eGE2dzAxa3\
 B3ZWx6NWYwZGx1dWIifQ.jSuKW32Avl_d3_TB2JqGlA'
 
-@app.route('/', methods = ["GET", "POST"])
+@app.route('/', methods=["GET", "POST"])
+    return render_template("index.html")
+
+@app.route('/login', methods = ["GET", "POST"])
 def login():
     if 'logged' not in session:
         session['logged'] = False
@@ -19,7 +22,7 @@ def login():
         print session['logged']
         return render_template("login.html")
     else:
-        u = request.form['uname'] 
+        u = request.form['uname']
         p = request.form['passwd']
         if (member_data.verify(u, p)):
             session['logged'] = True
@@ -55,10 +58,9 @@ def map():
 
 @app.route('/logout', methods = ["GET", "POST"])
 def logout():
-    pass      
+    pass
 
 if __name__=="__main__":
     app.debug = True
     app.secret_key = "HappyLittleTrees"
     app.run('0.0.0.0', port=8000)
-        
