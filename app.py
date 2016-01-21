@@ -8,15 +8,14 @@ mapKey = 'pk.eyJ1IjoiY2thdWJpc2NoIiwiYSI6ImNpaWJ2eGE2dzAxa3\
 B3ZWx6NWYwZGx1dWIifQ.jSuKW32Avl_d3_TB2JqGlA'
 
 @app.route('/', methods=["GET", "POST"])
-    return render_template("index.html")
+def index():
+    session['logged'] = True
+    return render_template("index.html", s = session)
 
 @app.route('/login', methods = ["GET", "POST"])
 def login():
     if 'logged' not in session:
         session['logged'] = False
-#    if request.method == "GET":
-#        return render_template("index.html")
-#    else:
     if request.method == "GET":
         print session
         print session['logged']
