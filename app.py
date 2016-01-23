@@ -8,6 +8,7 @@ mapKey = 'pk.eyJ1IjoiY2thdWJpc2NoIiwiYSI6ImNpaWJ2eGE2dzAxa3\
 B3ZWx6NWYwZGx1dWIifQ.jSuKW32Avl_d3_TB2JqGlA'
 
 @app.route('/', methods=["GET", "POST"])
+def home():
     return render_template("index.html")
 
 @app.route('/login', methods = ["GET", "POST"])
