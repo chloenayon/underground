@@ -38,7 +38,7 @@ def login():
 @app.route('/signup', methods=["GET", "POST"])
 def signup():
     if 'user' in session:
-        return render_template('home.html', user=session['user'])
+        return redirect(url_for('home'))
 
     if request.method == 'GET':
         return render_template('signup.html')
@@ -59,9 +59,23 @@ def signup():
             return render_template('signup.html', errors=error.to_dict())
         else:
             session['user'] = user
-            return render_template('home.html', user=user)
+            return redirect(url_for('home'))
 
 @app.route('/users/<string:username>', methods=["GET"])
+def get_user(username):
+    if 'user' not in session:
+        return redirect(url_for('home'))
+
+    user = User.objects(username=username).first()
+
+    if user == None:
+        abort(404)
+    else:
+        places = Place.objects(user=user).all()
+        lists = List.objects(user=user).all()
+        return render_template('user_profile.html', user=user, places=places, lists=lists)
+
+
 @app.route('/users/<string:username>/edit', methods=["GET", "POST"])
 
 @app.route('/places/create', methods=["GET", "POST"])
@@ -76,6 +90,10 @@ def signup():
 @app.route('/lists/<string:list_id>/delete', methods=["POST"])
 
 @app.route('/search', methods=["GET"])
+
+@app.errorhandler(404)
+def page_not_found(error):
+    return render_template('404.html'), 404
 
 
 #
