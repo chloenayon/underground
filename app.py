@@ -1,15 +1,16 @@
-from flask import Flask, render_template, request, session, redirect, url_for, escape
+from flask import *
 import urllib2, json
-import member_data
 import models
-
 
 app = Flask(__name__)
 
-
-
-
 @app.route('/', methods=["GET"])
+def home():
+    if 'user' in session:
+        return render_template('home.html', user=session['user'])
+    else:
+        return render_template('home.html')
+
 
 @app.route('/login', methods=["GET", "POST"])
 @app.route('/signup', methods=["GET", "POST"])
