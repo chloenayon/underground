@@ -49,11 +49,11 @@ def signup():
     if request.method == 'POST':
 
         user = User(
-          username=request.form['username'],
-          first_name=request.form['firstName'],
-          last_name=request.form['lastName'],
-          email=request.form['email'],
-          password=request.form['password']
+            username=request.form['username'],
+            first_name=request.form['firstName'],
+            last_name=request.form['lastName'],
+            email=request.form['email'],
+            password=request.form['password']
         )
 
         try:
@@ -67,7 +67,8 @@ def signup():
 
 @app.route('/users/<string:username>', methods=["GET"])
 def user_profile(username):
-    if 'user' not in session:
+    user = session['user']
+    if user is None:
         return redirect(url_for('home'))
 
     user = User.objects(username=username).first()
@@ -81,14 +82,15 @@ def user_profile(username):
 
 @app.route('/users/<string:username>/edit', methods=["GET", "POST"])
 def edit_user(username):
-    if 'user' not in session:
+    user = session['user']
+    if user is None:
         return redirect(url_for('home'))
 
     if request.method == 'GET':
         if username != session['user'].username:
             return redirect(url_for('user_profile', username=username))
         else:
-            return render_template('edit_user.html');
+            return render_template('edit_user.html')
 
     if request.method = 'POST':
 
@@ -119,9 +121,33 @@ def edit_user(username):
                 session['user'] = user
                 return redirect(url_for('user_profile', username=user.username))
 
+
 @app.route('/places/create', methods=["GET", "POST"])
-if 'user' not in session:
-    return redirect(url_for('home'))
+def create_place():
+    
+    user = session['user']
+    if user is None:
+        return redirect(url_for('home'))
+
+    if request.method == 'GET':
+        return render_template('create_place.html')
+
+    if request.method == 'POST':
+        place = Place(
+            user=,
+            name=request.form['name'],
+            last_name=request.form['lastName'],
+            email=request.form['email'],
+            password=request.form['password']
+        )
+
+        try:
+            user.save()
+        except ValidationError as error:
+            return render_template('signup.html', errors=error.to_dict())
+        else:
+            session['user'] = user
+            return redirect(url_for('home'))
 
 
 
@@ -129,7 +155,6 @@ if 'user' not in session:
 @app.route('/places/<string:place_id>/edit', methods=["GET", "POST"])
 @app.route('/places/<string:place_id>/delete', methods=["POST"])
 @app.route('/places/<string:place_id>/comments', methods=["POST"])
-
 @app.route('/search', methods=["GET"])
 
 @app.errorhandler(404)
@@ -192,7 +217,7 @@ def page_not_found(error):
 #             list = member_data.getPlaces(human)
 #             return render_template("mappage.html", name = list)
 
-if __name__=="__main__":
+if __name__ == "__main__":
     app.debug = True
     app.secret_key = "HappyLittleTrees"
     app.run('0.0.0.0', port=8000)
