@@ -134,20 +134,19 @@ def create_place():
 
     if request.method == 'POST':
         place = Place(
-            user=,
+            user=user,
             name=request.form['name'],
-            last_name=request.form['lastName'],
-            email=request.form['email'],
-            password=request.form['password']
+            description=request.form['description'],
+            location=[request.form['latitude'],request.form['longitude']],
+            address=request.form['address']
         )
 
         try:
-            user.save()
+            place.save()
         except ValidationError as error:
-            return render_template('signup.html', errors=error.to_dict())
+            return render_template('create_place.html', errors=error.to_dict())
         else:
-            session['user'] = user
-            return redirect(url_for('home'))
+            return redirect(url_for('view_place', place_id=place.id))
 
 
 
