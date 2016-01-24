@@ -84,33 +84,40 @@ def edit_user(username):
     if 'user' not in session:
         return redirect(url_for('home'))
 
-    user = session['user']
-    if user == None:
-        abort(404)
-    else:
-        if request.form['firstName'] is not None:
-            user.first_name = request.form['firstName']
-
-        if request.form['lastName'] is not None:
-            user.last_name = request.form['lastName']
-
-        if request.form['username'] is not None:
-            user.username = request.form['username']
-
-        if request.form['password'] is not None:
-            user.password = request.form['password']
-
-        if request.form['email'] is not None:
-            user.email = request.form['email']
-
-
-        try:
-            user.save()
-        except ValidationError as error:
-            return render_template('edit_user.html', errors=error.to_dict())
+    if request.method == 'GET':
+        if username != session['user'].username:
+            return redirect('/users/'+username)
         else:
-            session['user'] = user
-            return redirect(url_for('user_profile'))
+            return render_template('edit_user.html');
+
+    if request.method = 'POST':
+
+        user = session['user']
+        if user == None:
+            abort(404)
+        else:
+            if request.form['firstName'] is not None:
+                user.first_name = request.form['firstName']
+
+            if request.form['lastName'] is not None:
+                user.last_name = request.form['lastName']
+
+            if request.form['username'] is not None:
+                user.username = request.form['username']
+
+            if request.form['password'] is not None:
+                user.password = request.form['password']
+
+            if request.form['email'] is not None:
+                user.email = request.form['email']
+
+            try:
+                user.save()
+            except ValidationError as error:
+                return render_template('edit_user.html', errors=error.to_dict())
+            else:
+                session['user'] = user
+                return redirect(url_for('user_profile'))
 
 
 
