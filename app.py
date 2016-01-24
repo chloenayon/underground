@@ -9,15 +9,12 @@ B3ZWx6NWYwZGx1dWIifQ.jSuKW32Avl_d3_TB2JqGlA'
 
 @app.route('/', methods=["GET", "POST"])
 def home():
-    return render_template("index.html")
+    return render_template("home.html")
 
 @app.route('/login', methods = ["GET", "POST"])
 def login():
     if 'logged' not in session:
         session['logged'] = False
-#    if request.method == "GET":
-#        return render_template("index.html")
-#    else:
     if request.method == "GET":
         print session
         print session['logged']
@@ -31,6 +28,17 @@ def login():
             return redirect(url_for('map'))
         else:
             return render_template("login.html")
+
+#To add a place:
+# ** you can only add a place to the map of a specific member
+#
+#member_template.addPlace(request.form['uname'], request.form['lat'], request.form['lon'], request.form['title'], request.form['address'])
+#
+#
+#
+#
+#
+#
 
 @app.route('/signup', methods=["GET", "POST"])
 def signup():
@@ -56,10 +64,6 @@ def map():
             human = request.form["person"]
             list = member_data.getPlaces(human)
             return render_template("mappage.html", name = list)
-
-@app.route('/logout', methods = ["GET", "POST"])
-def logout():
-    pass
 
 if __name__=="__main__":
     app.debug = True
