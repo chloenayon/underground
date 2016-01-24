@@ -1,6 +1,6 @@
 from flask import *
 import urllib2, json
-import models
+from models import *
 
 app = Flask(__name__)
 
@@ -13,6 +13,35 @@ def home():
 
 
 @app.route('/login', methods=["GET", "POST"])
+def login():
+    if 'user' in session:
+        return render_template('home.html', user=session['user'])
+
+    if request.method == 'GET':
+        return render_template('login.html')
+
+    if request.method == 'POST':
+        username = request.form['username']
+        password = request.form['password']
+
+        user = User.objects(username=username).first()
+
+        if user == None:
+            return render_template('login.html', error='User doesn\'t exist')
+        else:
+            if user.verify_password(password=password):
+                session['user'] = user
+                return render_template('home.html', user=user)
+            else:
+                return render_template('login.html', error='Password incorrect')
+        
+
+
+
+
+
+
+
 @app.route('/signup', methods=["GET", "POST"])
 
 @app.route('/users/<string:username>', methods=["GET"])
