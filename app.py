@@ -34,15 +34,32 @@ def login():
                 return render_template('home.html', user=user)
             else:
                 return render_template('login.html', error='Password incorrect')
-        
-
-
-
-
-
-
 
 @app.route('/signup', methods=["GET", "POST"])
+def signup():
+    if 'user' in session:
+        return render_template('home.html', user=session['user'])
+
+    if request.method == 'GET':
+        return render_template('signup.html')
+
+    if request.method == 'POST':
+
+        user = User(
+          username=request.form['username'],
+          first_name=request.form['firstName'],
+          last_name=request.form['lastName'],
+          email=request.form['email'],
+          password=request.form['password']
+        )
+
+        try:
+            user.save()
+        except ValidationError as error:
+            return render_template('signup.html', errors=error.to_dict())
+        else:
+            session['user'] = user
+            return render_template('home.html', user=user)
 
 @app.route('/users/<string:username>', methods=["GET"])
 @app.route('/users/<string:username>/edit', methods=["GET", "POST"])
