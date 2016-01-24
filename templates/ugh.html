@@ -1,0 +1,116 @@
+`
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="A layout example that shows off a responsive email layout.">
+
+  <title>Underground</title>
+  <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.6.0/pure-min.css">
+
+  <!--[if lte IE 8]>
+        <link rel="stylesheet" href="css/layouts/email-old-ie.css">
+    <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="css/layouts/email.css">
+  <!--<![endif]-->
+</head>
+<body>
+  <div id="layout" class="content pure-g">
+    <div id="nav" class="pure-u">
+      <a href="#" class="nav-menu-button">Menu</a>
+
+      <div class="nav-inner">
+        <button class="primary-button pure-button">Search</button>
+        <br> {% if s.logged_in %}
+        <p style="color:white">Welcome {{s.Uname}}</p>
+        {% else %}
+        <form class="pure-form">
+
+          <fieldset>
+
+            <input style="padding:0em 1em" id="uname" type="unaame" placeholder="Username">
+            <input style="padding:0em 1em" id="password" type="password" placeholder="Password">
+
+            <label for="remember" class="pure-checkbox" style="color:white">
+              <input style="align:left" id="remember" type="checkbox"> Remember me
+            </label>
+
+            <button type="submit" class="pure-button pure-button-primary">Sign in</button>
+          </fieldset>
+        </form>
+        {% endif %}
+
+        <div class="pure-menu">
+          <ul class="pure-menu-list">
+            <li class="pure-menu-item"><a href="#" class="pure-menu-link">My Places<span></span></a></li>
+            <li class="pure-menu-item"><a href="#" class="pure-menu-link">Find Places</a></li>
+            <li class="pure-menu-item"><a href="#" class="pure-menu-link">Starred</a></li>
+            <li class="pure-menu-item"><a href="home.html" class="pure-menu-link">Map</a></li>
+            <li class="pure-menu-heading">Search By</li>
+            <li class="pure-menu-item">
+              <a href="#" class="pure-menu-link">
+                <span class="email-label-personal"></span>Personal</a>
+            </li>
+            <li class="pure-menu-item">
+              <a href="#" class="pure-menu-link">
+                <span class="email-label-work"></span>Work</a>
+            </li>
+            <li class="pure-menu-item">
+              <a href="#" class="pure-menu-link">
+                <span class="email-label-travel"></span>Want To Go</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div id="main" class="pure-u-1">
+      <div class="email-content">
+        <div class="email-content-header pure-g">
+          <div class="pure-u-1-2">
+            <h1 class="email-content-title">Place's Name</h1>
+            <p class="email-content-subtitle">
+              Last updated at
+              <span>3:56pm, April 3, 2012</span>
+            </p>
+          </div>
+
+          <div class="email-content-controls pure-u-1-2">
+            <button class="secondary-button pure-button">Add to My Places</button>
+            <button class="secondary-button pure-button">Star</button>
+            <button class="secondary-button pure-button">Review</button>
+          </div>
+        </div>
+
+        <div class="email-content-body">
+          <p>
+            <h5>Description</h5>
+            <br> Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="http://yui.yahooapis.com/3.17.2/build/yui/yui-min.js"></script>
+
+  <script>
+    YUI().use('node-base', 'node-event-delegate', function(Y) {
+
+      var menuButton = Y.one('.nav-menu-button'),
+        nav = Y.one('#nav');
+
+      // Setting the active class name expands the menu vertically on small screens.
+      menuButton.on('click', function(e) {
+        nav.toggleClass('active');
+      });
+
+      // Your application code goes here...
+
+    });
+  </script>
+</body>
+</html>
