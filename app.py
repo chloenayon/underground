@@ -86,7 +86,7 @@ def edit_user(username):
 
     if request.method == 'GET':
         if username != session['user'].username:
-            return redirect('/users/'+username)
+            return redirect(url_for('user_profile', username=username))
         else:
             return render_template('edit_user.html');
 
@@ -117,12 +117,14 @@ def edit_user(username):
                 return render_template('edit_user.html', errors=error.to_dict())
             else:
                 session['user'] = user
-                return redirect(url_for('user_profile'))
-
-
-
+                return redirect(url_for('user_profile', username=user.username))
 
 @app.route('/places/create', methods=["GET", "POST"])
+if 'user' not in session:
+    return redirect(url_for('home'))
+
+
+
 @app.route('/places/<string:place_id>', methods=["GET"])
 @app.route('/places/<string:place_id>/edit', methods=["GET", "POST"])
 @app.route('/places/<string:place_id>/delete', methods=["POST"])
