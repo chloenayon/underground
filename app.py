@@ -124,7 +124,6 @@ def edit_user(username):
 
 @app.route('/places/create', methods=["GET", "POST"])
 def create_place():
-
     user = session['user']
     if user is None:
         return redirect(url_for('home'))
@@ -151,6 +150,18 @@ def create_place():
 
 
 @app.route('/places/<string:place_id>', methods=["GET"])
+def view_place(place_id):
+    user = session['user']
+    if user is None:
+        return redirect(url_for('home'))
+
+    place = Place.objects(id=place_id).first()
+    if place == None:
+        abort(404)
+    else:
+        comments = Comment.objects(place=place).all()
+        return render_template('view_place.html', user=user, place=place, comments=comments)
+
 @app.route('/places/<string:place_id>/edit', methods=["GET", "POST"])
 @app.route('/places/<string:place_id>/delete', methods=["POST"])
 @app.route('/places/<string:place_id>/comments', methods=["POST"])

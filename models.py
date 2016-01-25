@@ -36,7 +36,6 @@ class Place(DynamicDocument):
     location = PointField()
     address = StringField(required=True)
     user = ReferenceField('User', required=True)
-    categories = ListField(ReferenceField('Category'))
 
 class Comment(DynamicDocument):
     user = ReferenceField('User', required=True)
@@ -46,7 +45,3 @@ class Comment(DynamicDocument):
 
     def pre_save(cls, sender, document, **kwargs):
         document.date = datetime.utcnow()
-
-class Category(DynamicDocument):
-    name = StringField(required=True, unique=True)
-    icon = StringField(required=True)
