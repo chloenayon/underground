@@ -8,6 +8,9 @@ app = Flask(__name__)
 def home():
     """
     description: Renders the home page
+
+    authentication: none
+
     """
     user = session.get('user', None)
     if user is None:
@@ -20,6 +23,8 @@ def home():
 def login():
     """
     description: Renders the login page and handles login process
+
+    authentication: none
 
     if the user is logged in redirects to home
     if the user is not logged in renders the login page
@@ -53,6 +58,8 @@ def signup():
     """
     description: Renders the signup page and handles sign up process
 
+    authentication: none
+
     if the user is logged in redirects to home
     if the user is not logged in renders the sign up page
     if the data is incorrect it redisplays the sign up page with errors
@@ -85,17 +92,27 @@ def signup():
 
 @app.route('/users/<string:username>', methods=["GET"])
 def user_profile(username):
+    """
+    description: Renders the user profile, lists places, favorites
+
+    authentication: none
+    """
 
     user = User.objects(username=username).first()
     if user == None:
         abort(404)
     else:
         places = Place.objects(user=user).all()
-        lists = List.objects(user=user).all()
-        return render_template('user_profile.html', user=user, places=places, lists=lists)
+        return render_template('user_profile.html', user=user, places=places)
 
 @app.route('/users/<string:username>/favorites', methods=["GET"])
 def user_favorites(username):
+    """
+    description: Renders the users favorites page
+
+    authentication: none
+    """
+
     user = User.objects(username=username).first()
     if user == None:
         abort(404)
@@ -105,6 +122,12 @@ def user_favorites(username):
 
 @app.route('/users/<string:username>/edit', methods=["GET", "POST"])
 def edit_user(username):
+    """
+    description: Renders the edit user page, handles edit user logic
+
+    authentication: required
+    """
+
     user = session.get('user', None)
     if user is None:
         return abort(404)
@@ -146,6 +169,11 @@ def edit_user(username):
 
 @app.route('/places/create', methods=["GET", "POST"])
 def create_place():
+    """
+    description: Renders the create place page, handles page creation logic
+
+    authentication: required
+    """
     user = session.get('user', None)
     if user is None:
         return redirect(url_for('home'))
@@ -172,6 +200,11 @@ def create_place():
 
 @app.route('/places/<string:place_id>', methods=["GET"])
 def view_place(place_id):
+    """
+    description: Renders the place page
+
+    authentication: none
+    """
     user = session.get('user', None)
     place = Place.objects(id=place_id).first()
     if place == None:
@@ -183,6 +216,13 @@ def view_place(place_id):
 
 @app.route('/places/<string:place_id>/edit', methods=['GET', 'PUT', 'DELETE'])
 def edit_place(place_id):
+    """
+    description: Renders the edit place page, handles the edit place logic, handles the delete page logic
+
+    authentication: required
+
+    user must be the owner of the place to edit or delete it
+    """
     user = session.get('user', None)
     if user is None:
         return redirect(url_for('view_place', place_id=place_id))
@@ -231,6 +271,13 @@ def edit_place(place_id):
 
 @app.route('/places/<string:place_id>/comments', methods=["POST"])
 def add_comment(place_id):
+    """
+    description: Handles the add comment logic
+
+    authentication: required
+
+    redirects to the view place page on success or failure
+    """
     user = session.get('user', None)
     if user is None:
         return redirect(url_for('view_place', place_id=place_id))
@@ -255,6 +302,11 @@ def add_comment(place_id):
 
 @app.route('/search', methods=["GET"])
 def search():
+    """
+    description: Renders the search page
+
+    authentication: none
+    """
     user = session.get('user', None)
     q = request.args.get('q')
     if q is None:
@@ -266,6 +318,11 @@ def search():
 
 @app.errorhandler(404)
 def page_not_found(error):
+    """
+    description: Renders the not found page
+
+    authentication: none
+    """
     user = session.get('user', None)
     return render_template('404.html', user=user), 404
 
