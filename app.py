@@ -163,6 +163,29 @@ def view_place(place_id):
         return render_template('view_place.html', user=user, place=place, comments=comments)
 
 @app.route('/places/<string:place_id>/edit', methods=["GET", "POST"])
+def edit_place(place_id):
+    user = session['user']
+    if user is None:
+        return redirect(url_for('home'))
+
+    place = Place.objects(id=place_id).first()
+    if place == None:
+        abort(404)
+
+    if place.user != user:
+        return redirect(url_for('view_place', place_id=place.id))
+
+    if request.method == 'GET':
+        return render_template('edit_place.html', user=user, place=place)
+
+    if request.method == 'POST':
+
+
+
+
+
+
+
 @app.route('/places/<string:place_id>/delete', methods=["POST"])
 @app.route('/places/<string:place_id>/comments', methods=["POST"])
 @app.route('/search', methods=["GET"])
