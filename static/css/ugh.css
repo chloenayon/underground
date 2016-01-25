@@ -1,0 +1,78 @@
+html, body, #wrapper, #sidebar-wrapper, #content-wrapper {
+  height: 100%;
+}
+#wrapper {
+  height: 100%;
+  padding-left: 0;
+  -webkit-transition: all 0.5s ease;
+  -moz-transition: all 0.5s ease;
+  -o-transition: all 0.5s ease;
+  transition: all 0.5s ease;
+}
+#wrapper.closed {
+  padding-left: 33%;
+}
+#sidebar-wrapper {
+  z-index: 1000;
+  position: fixed;
+  left: 33%;
+  width: 0;
+  height: 100%;
+  margin-left: -33%;
+  overflow-y: auto;
+  background: #eee;
+  -webkit-transition: all 0.5s ease;
+  -moz-transition: all 0.5s ease;
+  -o-transition: all 0.5s ease;
+  transition: all 0.5s ease;
+}
+#wrapper.closed #sidebar-wrapper {
+  width: 33%;
+}
+#content-wrapper {
+  width: 100%;
+  position: absolute;
+}
+#wrapper.closed #content-wrapper {
+  position: absolute;
+  margin-right: 33%;
+}
+
+.leaflet-top {
+    top: 52px;
+}
+
+
+#map {
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  top: 0px;
+}
+
+.navbar {
+  z-index: 1;
+}
+
+
+@media(min-width:768px) {
+  #wrapper {
+    padding-left: 33%;
+  }
+  #wrapper.closed {
+    padding-left: 0;
+  }
+  #sidebar-wrapper {
+    width: 33%;
+  }
+  #wrapper.closed #sidebar-wrapper {
+    width: 0;
+  }
+  #content-wrapper {
+    position: relative;
+  }
+  #wrapper.closed #content-wrapper {
+    position: relative;
+    margin-right: 0;
+  }
+}
