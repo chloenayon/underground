@@ -92,7 +92,7 @@ def edit_user(username):
         else:
             return render_template('edit_user.html', user=user)
 
-    if request.method = 'POST':
+    if request.method == 'POST':
 
         if user.username != username:
             return redirect(url_for('user_profile', username=username))
@@ -197,7 +197,7 @@ def edit_place(place_id):
         else:
             return redirect(url_for('view_place', place_id=place.id))
 
-    if request.method == 'DELETE'
+    if request.method == 'DELETE':
         try:
             place.delete()
         except Exception as error:
