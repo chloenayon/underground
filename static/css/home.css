@@ -1,3 +1,14 @@
-html, body {
-  height: 100%;
+section.jumbotron {
+  z-index: 1;
+}
+
+section.jumbotron:after {
+  z-index: -1;
+  content: ' ';
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  background-color: rgba(109,92,175,.65);
 }

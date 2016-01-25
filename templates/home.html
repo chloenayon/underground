@@ -1,73 +1,77 @@
-{% extends "base.html" %} {% block title %}Welcome{% endblock %} {% block head %} {{ super() }}
+{% extends "base.html" %} {% block title %} Welcome {% endblock %} {% block head %} {{ super() }}
 <link rel="stylesheet" href="static/css/home.css" media="screen" title="no title" charset="utf-8"> {% endblock %} {% block content %}
+<nav class="header bg-header transparent-light" data-pages="header" data-pages-header="autoresize" data-pages-resize-class="dark">
+  <div class="container relative">
 
-<nav class="navbar">
-  <div class="container-fluid">
-    <div class="navbar-header">
-      <a class="navbar-brand" href="/">
-        Underground
-      </a>
+
+    <div class="pull-right menu-content mobile-dark clearfix" data-pages="menu-content" data-pages-direction="slideRight" id="header">
+
+      <div class="header-inner">
+        <ul class="menu">
+          {% if user %}
+
+          {% else %}
+          <li>
+            <a class="btn btn-primary btn-cons" href="/signup" data-text="Sign up">Sign up</a>
+          </li>
+          <li>
+            <a class="btn btn-cons" href="/login" data-text="Log in">Log in</a>
+          </li>
+          {% endif %}
+        </ul>
+      </div>
     </div>
-
-    {% if user %} {% else %}
-    <button type="button" class="btn btn-default navbar-btn navbar-right">Sign up</button>
-    <button type="button" class="btn btn-default navbar-btn navbar-right">Log in</button>
-    {% endif %}
   </div>
 </nav>
 
-<div class="container-fluid">
-
-  <div id="map"></div>
-
-  <div class="row">
-    <div class="col-md-4 col-sm-1"></div>
-    <div class="col-md-4 col-sm-10">
-      <form class="form-inline">
-        <div class="form-group">
-          <label class="sr-only" for="search">Search</label>
-          <div class="input-group">
-            <div class="input-group-addon"><i class="fa fa-search"></i></div>
-            <input id="search" type="text" class="form-control" placeholder="I'm looking for...">
-          </div>
+<section class="jumbotron demo-custom-height xs-full-height bg-black">
+  <div class="container-xs-height full-height">
+    <div class="col-xs-height col-middle text-left">
+      <div class="container">
+        <div class="col-md-2"></div>
+        <div class="col-sm-8">
+          <h1 class="light text-white">Cultivate your favorite places around the city</h1>
+          {% if not user %}<h4 class="text-white">Sign up to save your favorites</h4>{% endif %}
+          <form class="m-t-25 m-b-20">
+            <div class="form-group form-group-default input-group no-border input-group-attached col-md-12  col-sm-12 col-xs-12">
+              <label>Search</label>
+              <input type="text" class="form-control" placeholder="I'm looking for...">
+              <span class="input-group-btn">
+                <button class="btn btn-primary btn-cons" type="button">Search</button>
+              </span>
+            </div>
+          </form>
+          {% if not user %}<p class="text-white fs-12">Or just try searching now.</p>{% endif %}
         </div>
-        <button type="submit" class="btn btn-primary">Search</button>
-      </form>
+        <div class="col-md-2"></div>
+      </div>
     </div>
-    <div class="col-md-4 col-sm-1"></div>
   </div>
-
-  <nav class="navbar navbar-inverse navbar-fixed-bottom" role="navigation">
-    <div class="container">
-      <!-- Brand and toggle get grouped for better mobile display -->
-      <div class="navbar-header">
-        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-          <span class="sr-only">Toggle navigation</span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-        </button>
-        <a class="navbar-brand" href="#">Start Bootstrap</a>
+</section>
+<!-- END JUMBOTRON -->
+<!-- START FOOTER -->
+<section class="p-b-30 p-t-40">
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-6">
+        <img src="static/img/logo.png" width="200" height="21" data-src-retina="static/img/logo.png" class="logo inline m-r-50" alt="">
+        <div class="m-t-10 ">
+          <ul class="no-style fs-11 no-padding font-arial">
+            <li class="inline no-padding"><a href="#" class=" text-master p-r-10 b-r b-grey">Home</a></li>
+            <li class="inline no-padding"><a href="#" class="hint-text text-master p-l-10 p-r-10 b-r b-grey">About</a></li>
+            <li class="inline no-padding"><a href="#" class="hint-text text-master p-l-10 p-r-10 b-r b-grey">Github</a></li>
+            <li class="inline no-padding"><a href="#" class="hint-text text-master p-l-10 p-r-10 xs-no-padding xs-m-t-10">Contact</a></li>
+          </ul>
+        </div>
       </div>
-      <!-- Collect the nav links, forms, and other content for toggling -->
-      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-        <ul class="nav navbar-nav">
-          <li>
-            <a href="#">About</a>
-          </li>
-          <li>
-            <a href="#">Services</a>
-          </li>
-          <li>
-            <a href="#">Contact</a>
-          </li>
-        </ul>
+      <div class="col-sm-6 text-right font-arial sm-text-left">
+        <p class="fs-11 muted">Copyright &copy; 2016 UNDERGROUND. All Rights Reserved.</p>
       </div>
-      <!-- /.navbar-collapse -->
     </div>
-    <!-- /.container -->
-  </nav>
+  </div>
+</section>
 
-</div>
-
+{% endblock %} {% block foot %} {{ super() }}
+<script src="static/js/home.js" charset="utf-8"></script>
+<script src="static/js/pages.frontend.js" charset="utf-8"></script>
 {% endblock %}
