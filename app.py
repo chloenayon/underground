@@ -8,7 +8,7 @@ app = Flask(__name__)
 
 @app.route('/', methods=["GET"])
 def home():
-    user = session['user']
+    user = session.get('user', None)
     if user is None:
         return render_template('home.html')
     else:
@@ -17,7 +17,7 @@ def home():
 
 @app.route('/login', methods=["GET", "POST"])
 def login():
-    user = session['user']
+    user = session.get('user', None)
     if user is not None:
         return redirct(url_for('home'))
 
@@ -42,7 +42,7 @@ def login():
 
 @app.route('/signup', methods=["GET", "POST"])
 def signup():
-    user = session['user']
+    user = session.get('user', None)
     if user is not None:
         return redirct(url_for('home'))
 
@@ -82,7 +82,7 @@ def user_profile(username):
 
 @app.route('/users/<string:username>/edit', methods=["GET", "POST"])
 def edit_user(username):
-    user = session['user']
+    user = session.get('user', None)
     if user is None:
         return abort(404)
 
@@ -123,7 +123,7 @@ def edit_user(username):
 
 @app.route('/places/create', methods=["GET", "POST"])
 def create_place():
-    user = session['user']
+    user = session.get('user', None)
     if user is None:
         return redirect(url_for('home'))
 
@@ -135,7 +135,7 @@ def create_place():
             user=user,
             name=request.form['name'],
             description=request.form['description'],
-            location=[request.form['latitude'],request.form['longitude']],
+            location=[request.form['latitude'], request.form['longitude']],
             address=request.form['address']
         )
 
@@ -147,10 +147,9 @@ def create_place():
             return redirect(url_for('view_place', place_id=place.id))
 
 
-
 @app.route('/places/<string:place_id>', methods=["GET"])
 def view_place(place_id):
-    user = session['user']
+    user = session.get('user', None)
     place = Place.objects(id=place_id).first()
     if place == None:
         abort(404)
@@ -158,9 +157,10 @@ def view_place(place_id):
         comments = Comment.objects(place=place).all()
         return render_template('view_place.html', user=user, place=place, comments=comments)
 
+
 @app.route('/places/<string:place_id>/edit', methods=['GET', 'PUT', 'DELETE'])
 def edit_place(place_id):
-    user = session['user']
+    user = session.get('user', None)
     if user is None:
         return redirect(url_for('view_place', place_id=place_id))
 
@@ -205,9 +205,10 @@ def edit_place(place_id):
         else:
             return redirect(url_for('home'))
 
+
 @app.route('/places/<string:place_id>/comments', methods=["POST"])
 def add_comment(place_id):
-    user = session['user']
+    user = session.get('user', None)
     if user is None:
         return redirect(url_for('view_place', place_id=place_id))
 
@@ -229,10 +230,9 @@ def add_comment(place_id):
         return redirect(url_for('view_place', place_id=place_id))
 
 
-
 @app.route('/search', methods=["GET"])
 def search():
-    user = session['user']
+    user = session.get('user', None)
     q = request.args.get('q')
     if q is None:
         return render_template('search.html', user=user)
@@ -240,9 +240,10 @@ def search():
         places = Place.objects.search_text(q).all()
         return render_template('search.html', user=user, places=places)
 
+
 @app.errorhandler(404)
 def page_not_found(error):
-    user = session['user']
+    user = session.get('user', None)
     return render_template('404.html', user=user), 404
 
 
