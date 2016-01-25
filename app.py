@@ -6,6 +6,9 @@ app = Flask(__name__)
 
 @app.route('/', methods=["GET"])
 def home():
+"""
+description: Renders the home page
+"""
     user = session.get('user', None)
     if user is None:
         return render_template('home.html')
@@ -15,6 +18,13 @@ def home():
 
 @app.route('/login', methods=["GET", "POST"])
 def login():
+"""
+description: Renders the login page and handles login process
+
+if the user is logged in redirects to home
+if the user is not logged in renders the login page
+if the credentials are incorrect it redisplays the login page with errors
+"""
     user = session.get('user', None)
     if user is not None:
         return redirct(url_for('home'))
