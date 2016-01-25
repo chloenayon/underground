@@ -151,9 +151,6 @@ def create_place():
 @app.route('/places/<string:place_id>', methods=["GET"])
 def view_place(place_id):
     user = session['user']
-    if user is None:
-        return redirect(url_for('home'))
-
     place = Place.objects(id=place_id).first()
     if place == None:
         abort(404)
@@ -161,23 +158,23 @@ def view_place(place_id):
         comments = Comment.objects(place=place).all()
         return render_template('view_place.html', user=user, place=place, comments=comments)
 
-@app.route('/places/<string:place_id>/edit', methods=["GET", "POST"])
+@app.route('/places/<string:place_id>/edit', methods=['GET', 'PUT', 'DELETE'])
 def edit_place(place_id):
     user = session['user']
     if user is None:
-        return redirect(url_for('home'))
+        return redirect(url_for('view_place', place_id=place_id))
 
     place = Place.objects(id=place_id).first()
     if place == None:
         abort(404)
 
-    if place.user != user:
+    if place.user!= user:
         return redirect(url_for('view_place', place_id=place.id))
 
     if request.method == 'GET':
         return render_template('edit_place.html', user=user, place=place)
 
-    if request.method == 'POST':
+    if request.method == 'PUT':
         if request.form['name'] is not None:
             place.name = request.form['name']
 
@@ -200,9 +197,44 @@ def edit_place(place_id):
         else:
             return redirect(url_for('view_place', place_id=place.id))
 
-@app.route('/places/<string:place_id>/delete', methods=["POST"])
+    if request.method == 'DELETE'
+        try:
+            place.delete()
+        except Exception as error:
+            return render_template('edit_place.html', user=user, errors=error.to_dict())
+        else:
+            return redirect(url_for('home'))
+
 @app.route('/places/<string:place_id>/comments', methods=["POST"])
+def add_comment(place_id):
+    user = session['user']
+    if user is None:
+        return redirect(url_for('view_place', place_id=place_id))
+
+    place = Place.objects(id=place_id).first()
+    if place == None:
+        abort(404)
+
+    comment = Comment(
+        place=place,
+        user=user,
+        text=request.form['text']
+    )
+
+    try:
+        comment.save()
+    except ValidationError as error:
+        return render_template('view_place.html', user=user, errors=error.to_dict())
+    else:
+        return redirect(url_for('view_place', place_id=place_id))
+
+
+
 @app.route('/search', methods=["GET"])
+def search():
+    user = session['user']
+    request.
+    places = Place.objects.search_text('testing').text()
 
 @app.errorhandler(404)
 def page_not_found(error):
