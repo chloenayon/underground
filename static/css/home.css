@@ -1,5 +1,10 @@
 section.jumbotron {
   z-index: 1;
+  background: center center no-repeat;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
 }
 
 section.jumbotron:after {

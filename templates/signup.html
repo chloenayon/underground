@@ -1,0 +1,101 @@
+{% extends "base.html" %} {% block title %} Welcome {% endblock %} {% block head %} {{ super() }}
+<link rel="stylesheet" href="static/css/home.css" media="screen" title="no title" charset="utf-8"> {% endblock %} {% block content %}
+<nav class="header bg-header transparent-light" data-pages="header" data-pages-header="autoresize" data-pages-resize-class="dark">
+  <div class="container relative">
+
+
+    <div class="pull-right menu-content mobile-dark clearfix" data-pages="menu-content" data-pages-direction="slideRight" id="header">
+
+      <div class="header-inner">
+        <ul class="menu">
+          <li>
+            <a class="btn btn-primary btn-cons" href="/signup" data-text="Sign up">Sign up</a>
+          </li>
+          <li>
+            <a class="btn btn-cons" href="/login" data-text="Log in">Log in</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<section class="jumbotron last full-height xs-full-height z-index-10" data-pages="parallax" data-pages-bg-image="assets/images/Hero.jpg">
+  <div class="container-xs-height full-height inner">
+    <div class="col-xs-height col-middle text-left">
+      <!-- START CONTENT -->
+      <div class="container">
+        <div class="row">
+          <div class="col-sm-10 col-sm-offset-1">
+            <div class="text-center sm-p-t-30">
+              <img src="static/img/logo-white.png" width="200" height="21" data-src-retina="static/img/logo-white.png" alt="" class="m-b-30">
+              <h1 class="font-montserrat text-uppercase hidden-xs text-white">Welcome to Underground!</h1>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-8 col-md-offset-2">
+            <div class="row">
+              <form role="form" autocomplete="off" class="m-t-15" id="contact-form" action="_lib/mail.php" method="post" novalidate="novalidate">
+                <div class="row">
+                  <div class="col-sm-6">
+                    <div class="form-group form-group-default required" aria-required="true">
+                      <label>First name</label>
+                      <input type="text" name="name" class="form-control" required="" aria-required="true">
+                    </div>
+                  </div>
+                  <div class="col-sm-6">
+                    <div class="form-group form-group-default">
+                      <label>Last name</label>
+                      <input type="text" name="last-name" class="form-control" required="" aria-required="true">
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group form-group-default">
+                  <label>Email</label>
+                  <input type="email" name="email" placeholder="This can be changed later" class="form-control" required="" aria-required="true">
+                </div>
+                <div class="form-group form-group-default">
+                  <label>Message</label>
+                  <textarea name="message" placeholder="Type the message you wish to send" style="height:100px" class="form-control" required="" aria-required="true"></textarea>
+                </div>
+                <div class="sm-p-t-10 clearfix">
+                  <p class="pull-left small hint-text m-t-5 font-arial">I hereby certify that the information above is true and accurate. </p>
+                  <button class="btn btn-primary font-montserrat all-caps fs-12 pull-right xs-pull-left">Submit</button>
+                </div>
+                <div class="clearfix"></div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- END CONTENT -->
+    </div>
+  </div>
+</section>
+<!-- END JUMBOTRON -->
+<!-- START FOOTER -->
+<section class="p-b-30 p-t-40">
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-6">
+        <img src="static/img/logo.png" width="200" height="21" data-src-retina="static/img/logo.png" class="logo inline m-r-50" alt="">
+        <div class="m-t-10 ">
+          <ul class="no-style fs-11 no-padding font-arial">
+            <li class="inline no-padding"><a href="#" class=" text-master p-r-10 b-r b-grey">Home</a></li>
+            <li class="inline no-padding"><a href="#" class="hint-text text-master p-l-10 p-r-10 b-r b-grey">About</a></li>
+            <li class="inline no-padding"><a href="#" class="hint-text text-master p-l-10 p-r-10 b-r b-grey">Contact</a></li>
+            <li class="inline no-padding"><a href="#" class="hint-text text-master p-l-10 p-r-10 xs-no-padding xs-m-t-10">Github</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="col-sm-6 text-right font-arial sm-text-left">
+        <p class="fs-11 muted">Copyright &copy; 2016 UNDERGROUND. All Rights Reserved.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% endblock %} {% block foot %} {{ super() }}
+<script src="static/js/home.js" charset="utf-8"></script>
+{% endblock %}
