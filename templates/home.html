@@ -9,7 +9,21 @@
       <div class="header-inner">
         <ul class="menu">
           {% if user %}
-
+          <li>
+            <a href="/myplaces">My Places</a>
+          </li>
+          <li>
+            <a href="/favorites">Favorites</a>
+          </li>
+          <li>
+            <a href="/user/{{user.username}}">My Profile</a>
+          </li>
+          <li>
+            <a>Hello {{user.first_name}}</a>
+          </li>
+          <li>
+            <a class="btn btn-cons" href="/places/create">Add Place</a>
+          </li>
           {% else %}
           <li>
             <a class="btn btn-primary btn-cons" href="/signup" data-text="Sign up">Sign up</a>
@@ -32,12 +46,12 @@
         <div class="col-sm-8">
           <h1 class="light text-white">Cultivate your favorite places around the city</h1>
           {% if not user %}<h4 class="text-white">Sign up to save your favorites</h4>{% endif %}
-          <form class="m-t-25 m-b-20">
+          <form class="m-t-25 m-b-20" method="GET" action="/search">
             <div class="form-group form-group-default input-group no-border input-group-attached col-md-12  col-sm-12 col-xs-12">
               <label>Search</label>
-              <input type="text" class="form-control" placeholder="I'm looking for...">
+              <input type="text" class="form-control" name="q" placeholder="I'm looking for...">
               <span class="input-group-btn">
-                <button class="btn btn-primary btn-cons" type="button">Search</button>
+                <button class="btn btn-primary btn-cons" type="submit">Search</button>
               </span>
             </div>
           </form>
@@ -59,8 +73,8 @@
           <ul class="no-style fs-11 no-padding font-arial">
             <li class="inline no-padding"><a href="#" class=" text-master p-r-10 b-r b-grey">Home</a></li>
             <li class="inline no-padding"><a href="#" class="hint-text text-master p-l-10 p-r-10 b-r b-grey">About</a></li>
-            <li class="inline no-padding"><a href="#" class="hint-text text-master p-l-10 p-r-10 b-r b-grey">Github</a></li>
-            <li class="inline no-padding"><a href="#" class="hint-text text-master p-l-10 p-r-10 xs-no-padding xs-m-t-10">Contact</a></li>
+            <li class="inline no-padding"><a href="#" class="hint-text text-master p-l-10 p-r-10 b-r b-grey">Contact</a></li>
+            <li class="inline no-padding"><a href="#" class="hint-text text-master p-l-10 p-r-10 xs-no-padding xs-m-t-10">Github</a></li>
           </ul>
         </div>
       </div>
@@ -73,5 +87,4 @@
 
 {% endblock %} {% block foot %} {{ super() }}
 <script src="static/js/home.js" charset="utf-8"></script>
-<script src="static/js/pages.frontend.js" charset="utf-8"></script>
 {% endblock %}
