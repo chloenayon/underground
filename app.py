@@ -84,7 +84,7 @@ def user_profile(username):
 def edit_user(username):
     user = session['user']
     if user is None:
-        return redirect(url_for('home'))
+        return abort(404)
 
     if request.method == 'GET':
         if username != session['user'].username:
@@ -94,9 +94,8 @@ def edit_user(username):
 
     if request.method = 'POST':
 
-        user = session['user']
-        if user == None:
-            abort(404)
+        if user.username != username:
+            return redirect(url_for('user_profile', username=username))
         else:
             if request.form['firstName'] is not None:
                 user.first_name = request.form['firstName']
@@ -179,12 +178,27 @@ def edit_place(place_id):
         return render_template('edit_place.html', user=user, place=place)
 
     if request.method == 'POST':
+        if request.form['name'] is not None:
+            place.name = request.form['name']
 
+        if request.form['description'] is not None:
+            place.description = request.form['description']
 
+        if request.form['latitude'] is not None and request.form['longitude'] is not None:
+            place.location = [
+                request.form['latitude'],
+                request.form['longitude']
+            ]
 
+        if request.form['address'] is not None:
+            user.address = request.form['address']
 
-
-
+        try:
+            place.save()
+        except ValidationError as error:
+            return render_template('edit_place.html', errors=error.to_dict())
+        else:
+            return redirect(url_for('view_place', place_id=place.id))
 
 @app.route('/places/<string:place_id>/delete', methods=["POST"])
 @app.route('/places/<string:place_id>/comments', methods=["POST"])
