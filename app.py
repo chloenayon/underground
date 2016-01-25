@@ -1,6 +1,4 @@
 from flask import *
-import urllib2
-import json
 from models import *
 
 app = Flask(__name__)
