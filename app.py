@@ -115,7 +115,7 @@ def edit_user(username):
             try:
                 user.save()
             except ValidationError as error:
-                return render_template('edit_user.html', errors=error.to_dict())
+                return render_template('edit_user.html', user=user, errors=error.to_dict())
             else:
                 session['user'] = user
                 return redirect(url_for('user_profile', username=user.username))
@@ -128,7 +128,7 @@ def create_place():
         return redirect(url_for('home'))
 
     if request.method == 'GET':
-        return render_template('create_place.html')
+        return render_template('create_place.html', user=user)
 
     if request.method == 'POST':
         place = Place(
@@ -142,7 +142,7 @@ def create_place():
         try:
             place.save()
         except ValidationError as error:
-            return render_template('create_place.html', errors=error.to_dict())
+            return render_template('create_place.html', user=user, errors=error.to_dict())
         else:
             return redirect(url_for('view_place', place_id=place.id))
 
@@ -168,7 +168,7 @@ def edit_place(place_id):
     if place == None:
         abort(404)
 
-    if place.user!= user:
+    if place.user != user:
         return redirect(url_for('view_place', place_id=place.id))
 
     if request.method == 'GET':
@@ -193,7 +193,7 @@ def edit_place(place_id):
         try:
             place.save()
         except ValidationError as error:
-            return render_template('edit_place.html', errors=error.to_dict())
+            return render_template('edit_place.html', user=user, errors=error.to_dict())
         else:
             return redirect(url_for('view_place', place_id=place.id))
 
@@ -242,10 +242,11 @@ def search():
 
 @app.errorhandler(404)
 def page_not_found(error):
-    return render_template('404.html'), 404
+    user = session['user']
+    return render_template('404.html', user=user), 404
 
 
 if __name__ == "__main__":
     app.debug = True
-    app.secret_key = "HappyLittleTrees"
+    app.secret_key = "EFAB22A53737A1C6BD7F5575A9FA1"
     app.run('0.0.0.0', port=8000)
