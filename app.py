@@ -233,8 +233,12 @@ def add_comment(place_id):
 @app.route('/search', methods=["GET"])
 def search():
     user = session['user']
-    request.
-    places = Place.objects.search_text('testing').text()
+    q = request.args.get('q')
+    if q is None:
+        return render_template('search.html', user=user)
+    else:
+        places = Place.objects.search_text(q).all()
+        return render_template('search.html', user=user, places=places)
 
 @app.errorhandler(404)
 def page_not_found(error):
