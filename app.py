@@ -8,16 +8,18 @@ app = Flask(__name__)
 
 @app.route('/', methods=["GET"])
 def home():
-    if 'user' in session:
-        return render_template('home.html', user=session['user'])
-    else:
+    user = session['user']
+    if user is None:
         return render_template('home.html')
+    else:
+        return render_template('home.html', user=user)
 
 
 @app.route('/login', methods=["GET", "POST"])
 def login():
-    if 'user' in session:
-        return render_template('home.html', user=session['user'])
+    user = session['user']
+    if user is not None:
+        return redirct(url_for('home'))
 
     if request.method == 'GET':
         return render_template('login.html')
@@ -33,15 +35,16 @@ def login():
         else:
             if user.verify_password(password=password):
                 session['user'] = user
-                return render_template('home.html', user=user)
+                return redirct(url_for('home'))
             else:
                 return render_template('login.html', error='Password incorrect')
 
 
 @app.route('/signup', methods=["GET", "POST"])
 def signup():
-    if 'user' in session:
-        return redirect(url_for('home'))
+    user = session['user']
+    if user is not None:
+        return redirct(url_for('home'))
 
     if request.method == 'GET':
         return render_template('signup.html')
@@ -67,9 +70,6 @@ def signup():
 
 @app.route('/users/<string:username>', methods=["GET"])
 def user_profile(username):
-    user = session['user']
-    if user is None:
-        return redirect(url_for('home'))
 
     user = User.objects(username=username).first()
     if user == None:
@@ -87,10 +87,10 @@ def edit_user(username):
         return abort(404)
 
     if request.method == 'GET':
-        if username != session['user'].username:
+        if username != user.username:
             return redirect(url_for('user_profile', username=username))
         else:
-            return render_template('edit_user.html')
+            return render_template('edit_user.html', user=user)
 
     if request.method = 'POST':
 
