@@ -79,6 +79,14 @@ def user_profile(username):
         lists = List.objects(user=user).all()
         return render_template('user_profile.html', user=user, places=places, lists=lists)
 
+@app.route('/users/<string:username>/favorites', methods=["GET"])
+def user_favorites(username):
+    user = User.objects(username=username).first()
+    if user == None:
+        abort(404)
+    else:
+        places = user.favorites
+        return render_template('favorites.html', user=user, places=places)
 
 @app.route('/users/<string:username>/edit', methods=["GET", "POST"])
 def edit_user(username):
