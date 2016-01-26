@@ -111,7 +111,11 @@ def profile(username):
     if user == None:
         abort(404)
     else:
-        places = Place.objects(user=user).all()
+        places = []
+
+        for place in Place.objects(user=user).all():
+            places.append(place.to_dict())
+
         return render_template('profile.html', current_user=current_user.to_dict(), user=user.to_dict(), places=places)
 
 
@@ -231,20 +235,20 @@ def edit_place(place_id):
         return render_template('edit_place.html', user=user, place=place)
 
     if request.method == 'PUT':
-        if request.form['name'] is not None:
-            place.name = request.form['name']
+        if request.form.get('name') is not None:
+            place.name = request.form.get('name')
 
-        if request.form['description'] is not None:
-            place.description = request.form['description']
+        if request.form.get('description') is not None:
+            place.description = request.form.get('description')
 
-        if request.form['latitude'] is not None and request.form['longitude'] is not None:
-            place.location = [
-                request.form['latitude'],
-                request.form['longitude']
-            ]
+        if request.form.get('latitude') is not None:
+            place.location = request.form.get('latitude')
 
-        if request.form['address'] is not None:
-            user.address = request.form['address']
+        if request.form.get('longitude') is not None:
+            place.location = request.form.get('longitude')
+
+        if request.form.get('address') is not None:
+            user.address = request.form.get('address')
 
         try:
             place.save()
@@ -300,13 +304,16 @@ def search():
 
     authentication: none
     """
-    user = get_current_user(session)
+    current_user = get_current_user(session)
     q = request.args.get('q')
     if q is None:
-        return render_template('search.html', user=user)
+        return redirect(url_for('home'))
     else:
-        places = Place.objects.search_text(q).all()
-        return render_template('search.html', user=user, places=places)
+        places = []
+
+        for place in Place.objects.search_text(q).all():
+            places.append(place.to_dict())
+        return render_template('search.html', current_user=current_user, places=places)
 
 
 @app.errorhandler(404)
