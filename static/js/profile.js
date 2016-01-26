@@ -7,5 +7,5 @@ $(document).ready(function() {
     var longitude = parseFloat(coords[1])
 
     var map = L.mapbox.map('map', 'mapbox.emerald').setView([latitude, longitude], 12);
-  })
+  }, 'jsonp');
 });

@@ -57,9 +57,11 @@ class User(JSONConvertible):
 class Place(JSONConvertible):
     name = StringField(required=True)
     description = StringField(required=True)
-    location = PointField(required=True)
+    latitude = FloatField(required=True)
+    longitude = FloatField(required=True)
     address = StringField()
     user = ReferenceField('User', required=True)
+    category = StringField()
 
 
 class Comment(JSONConvertible):

@@ -59,6 +59,55 @@
   </div>
 </section>
 
+{% if places %}
+<script>
+  var myLayer = L.mapbox.featureLayer().addTo(map);
+
+  var geoJson = [
+
+    {% for place in place %}
+    {
+      type: 'Feature',
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-77.03, 38.90]
+      },
+      "properties": {
+        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ef/Cherry_Blossoms_and_Washington_Monument.jpg/320px-Cherry_Blossoms_and_Washington_Monument.jpg",
+        "url": "https://en.wikipedia.org/wiki/Washington,_D.C.",
+        "marker-symbol": "star",
+        "marker-color": "#ff8888",
+        "marker-size": "large",
+        "city": "Washington, D.C."
+      }
+    }
+    {% if not loop.last %},{% endif %}
+    {% endfor %}
+  ];
+
+  // Add custom popups to each using our custom feature properties
+  myLayer.on('layeradd', function(e) {
+    var marker = e.layer,
+      feature = marker.feature;
+
+    // Create custom popup content
+    var popupContent = '<a target="_blank" class="popup" href="' + feature.properties.url + '">' +
+      '<img src="' + feature.properties.image + '" />' +
+      feature.properties.city +
+      '</a>';
+
+    // http://leafletjs.com/reference.html#popup
+    marker.bindPopup(popupContent, {
+      closeButton: false,
+      minWidth: 320
+    });
+  });
+
+  // Add features to the map
+  myLayer.setGeoJSON(geoJson);
+</script>
+{% endif %}
+
 {% endblock %} {% block foot %} {{ super() }}
 <script src="/static/js/profile.js" charset="utf-8"></script>
 {% endblock %}

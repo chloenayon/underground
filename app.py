@@ -134,60 +134,59 @@ def edit_user(username):
 
     if request.method == 'POST':
 
-        if user.username != username:
+        if current_user.username != username:
             return redirect(url_for('profile', username=username))
         else:
-            if request.form['firstName'] is not None:
-                user.first_name = request.form['firstName']
+            if request.form.get('firstName') is not None:
+                current_user.first_name = request.form.get('first_name')
 
-            if request.form['lastName'] is not None:
-                user.last_name = request.form['lastName']
+            if request.form.get('lastName') is not None:
+                current_user.last_name = request.form.get('lastName')
 
-            if request.form['username'] is not None:
-                user.username = request.form['username']
+            if request.form.get('username') is not None:
+                current_user.username = request.form.get('username')
 
-            if request.form['password'] is not None:
-                user.password = request.form['password']
+            if request.form.get('password') is not None:
+                current_user.password = request.form.get('password')
 
-            if request.form['email'] is not None:
-                user.email = request.form['email']
+            if request.form.get('email') is not None:
+                current_user.email = request.form.get('email')
 
             try:
-                user.save()
+                current_user.save()
             except ValidationError as error:
-                return render_template('edit_user.html', user=user, errors=error.to_dict())
+                return render_template('profile.html', current_user=current_user.to_dict(), errors=error.to_dict())
             else:
-                session['user'] = user
-                return redirect(url_for('profile', username=user.username))
+                session['user'] = current_user.to_dict()
+                return redirect(url_for('profile', username=current_user.username))
 
 
-@app.route('/places/create', methods=["GET", "POST"])
+@app.route('/places', methods=["POST"])
 def create_place():
     """
-    description: Renders the create place page, handles page creation logic
+    description:  handles place creation logic
 
     authentication: required
     """
-    user = get_current_user(session)
-    if user is None:
+    current_user = get_current_user(session)
+    if current_user is None:
         return redirect(url_for('home'))
-
-    if request.method == 'GET':
-        return render_template('create_place.html', user=user)
 
     if request.method == 'POST':
         place = Place(
-            user=user,
-            name=request.form['name'],
-            description=request.form['description'],
-            location=[request.form['latitude'], request.form['longitude']],
-            address=request.form['address']
+            user=current_user,
+            name=request.form.get('name'),
+            description=request.form.get('description'),
+            latitude=request.form.get('latitude'),
+            longitude=request.form.get('longitude'),
+            address=request.form.get('address'),
+            category=request.form.get('category')
         )
 
         try:
             place.save()
         except ValidationError as error:
-            return render_template('create_place.html', user=user, errors=error.to_dict())
+            return render_template('profile.html', current_user=current_user, errors=error.to_dict())
         else:
             return redirect(url_for('view_place', place_id=place.id))
 
@@ -199,7 +198,7 @@ def view_place(place_id):
 
     authentication: none
     """
-    user = get_current_user(session)
+    current_user = get_current_user(session)
     place = Place.objects(id=place_id).first()
     if place == None:
         abort(404)
