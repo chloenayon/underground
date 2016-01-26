@@ -1,0 +1,65 @@
+{% extends "base.html" %} {% block title %} {{user.first_name}}'s Places {% endblock %} {% block head %} {{ super() }}
+<link rel="stylesheet" href="static/css/home.css" media="screen" title="no title" charset="utf-8"> {% endblock %} {% block content %}
+<nav class="header bg-header transparent-light" data-pages="header" data-pages-header="autoresize" data-pages-resize-class="dark">
+  <div class="container relative">
+
+
+    <div class="pull-right menu-content mobile-dark clearfix" data-pages="menu-content" data-pages-direction="slideRight" id="header">
+
+      <div class="header-inner">
+        <ul class="menu">
+          {% if user %}
+          <li>
+            <a href="/user/{{user.username}}">My Places</a>
+          </li>
+          <li>
+            <a>Hello {{user.first_name}}</a>
+          </li>
+          <li>
+            <a class="btn btn-cons" href="#" data-toggle="modal" data-target="#addPlaceModal">Add Place</a>
+          </li>
+          {% else %}
+          <li>
+            <a class="btn btn-primary btn-cons" href="/signup" data-text="Sign up">Sign up</a>
+          </li>
+          <li>
+            <a class="btn btn-cons" href="/login" data-text="Log in">Log in</a>
+          </li>
+          {% endif %}
+        </ul>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<section class="jumbotron demo-custom-height xs-full-height bg-black">
+  <div class="container-xs-height full-height">
+    <div id="map"></div>
+  </div>
+</section>
+<!-- END JUMBOTRON -->
+<!-- START FOOTER -->
+<section class="p-b-30 p-t-40">
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-6">
+        <img src="static/img/logo.png" width="200" height="21" data-src-retina="static/img/logo.png" class="logo inline m-r-50" alt="">
+        <div class="m-t-10 ">
+          <ul class="no-style fs-11 no-padding font-arial">
+            <li class="inline no-padding"><a href="#" class=" text-master p-r-10 b-r b-grey">Home</a></li>
+            <li class="inline no-padding"><a href="#" class="hint-text text-master p-l-10 p-r-10 b-r b-grey">About</a></li>
+            <li class="inline no-padding"><a href="#" class="hint-text text-master p-l-10 p-r-10 b-r b-grey">Contact</a></li>
+            <li class="inline no-padding"><a href="#" class="hint-text text-master p-l-10 p-r-10 xs-no-padding xs-m-t-10">Github</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="col-sm-6 text-right font-arial sm-text-left">
+        <p class="fs-11 muted">Copyright &copy; 2016 UNDERGROUND. All Rights Reserved.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% endblock %} {% block foot %} {{ super() }}
+<script src="static/js/profile.js" charset="utf-8"></script>
+{% endblock %}
