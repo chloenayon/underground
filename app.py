@@ -4,8 +4,7 @@ from models import *
 app = Flask(__name__)
 
 try:
-    connect('heroku_1p1fq4fq',
-            host='mongodb://heroku_1p1fq4fq:n28s1p9g2mtingmu9ideuk9j04@ds049935.mongolab.com:49935/heroku_1p1fq4fq')
+    connect('heroku_1p1fq4fq', host='mongodb://heroku_1p1fq4fq:n28s1p9g2mtingmu9ideuk9j04@ds049935.mongolab.com:49935/heroku_1p1fq4fq')
 except Exception as e:
     print e
 else:
@@ -119,7 +118,7 @@ def profile(username):
         return render_template('profile.html', current_user=current_user.to_dict(), user=user.to_dict(), places=places)
 
 
-@app.route('/users/<string:username>/edit', methods=["GET", "POST"])
+@app.route('/users/<string:username>/edit', methods=["POST"])
 def edit_user(username):
     """
     description: Renders the edit user page, handles edit user logic
@@ -130,21 +129,15 @@ def edit_user(username):
     if current_user is None:
         return abort(404)
 
-    if request.method == 'GET':
-        if username != user.username:
-            return redirect(url_for('profile', username=username))
-        else:
-            return render_template('edit_user.html', user=user)
-
     if request.method == 'POST':
 
         if current_user.username != username:
             return redirect(url_for('profile', username=username))
         else:
-            if request.form.get('firstName') is not None:
+            if request.form.get('first_name') is not None:
                 current_user.first_name = request.form.get('first_name')
 
-            if request.form.get('lastName') is not None:
+            if request.form.get('last_name') is not None:
                 current_user.last_name = request.form.get('lastName')
 
             if request.form.get('username') is not None:
@@ -159,7 +152,8 @@ def edit_user(username):
             try:
                 current_user.save()
             except ValidationError as error:
-                return render_template('profile.html', current_user=current_user.to_dict(), errors=error.to_dict())
+                print error
+                return redirect(url_for('profile', username=current_user.username))
             else:
                 session['user'] = current_user.to_dict()
                 return redirect(url_for('profile', username=current_user.username))
