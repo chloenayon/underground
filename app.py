@@ -20,12 +20,13 @@ def home():
     authentication: none
 
     """
-    print session
 
     current_user = get_current_user(session)
     if current_user is None:
         return render_template('home.html')
     else:
+        print 'yo'
+        print current_user.to_dict()
         return render_template('home.html', current_user=current_user.to_dict())
 
 
@@ -51,17 +52,13 @@ def login():
         username = request.form['username']
         password = request.form['password']
 
-        for user in User.objects:
-            print user.to_dict()
-
-
         user = User.objects(username=username).first()
 
         if user == None:
             return render_template('login.html', error='User doesn\'t exist')
         else:
             if user.password == password:
-                session['username'] = user.username
+                session['user'] = user.to_dict()
                 return redirect(url_for('home'))
             else:
                 return render_template('login.html', error='Password incorrect')
@@ -87,8 +84,6 @@ def signup():
 
     if request.method == 'POST':
 
-        print session['username']
-
         user = User(
             username=request.form['username'],
             first_name=request.form['first_name'],
@@ -102,7 +97,7 @@ def signup():
         except ValidationError as error:
             return render_template('signup.html', errors=error.to_dict())
         else:
-            session['username'] = user.username
+            session['user'] = user.to_dict()
             return redirect(url_for('home'))
 
 

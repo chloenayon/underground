@@ -2,8 +2,8 @@ from mongoengine import *
 import datetime
 
 def get_current_user(session):
-    if 'username' in session:
-        return User.objects(username=session['username']).first()
+    if 'user' in session:
+        return User.objects(username=session['user']['username']).first()
     else:
         return None
 
