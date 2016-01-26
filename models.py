@@ -7,46 +7,43 @@ def get_current_user(session):
     else:
         return None
 
-class JSONConvertible(DynamicDocument):
-    meta = {'allow_inheritance': True}
-    def to_dict(obj):
+def mongo_to_dict(obj):
 
-        return_data = []
+    return_data = []
 
-        if isinstance(obj, Document):
-            return_data.append(("id", str(obj.id)))
+    if isinstance(obj, Document):
+        return_data.append(("id", str(obj.id)))
 
-        for field_name in obj._fields:
-            data = obj._data[field_name]
+    for field_name in obj._fields:
+        data = obj._data[field_name]
 
-            if isinstance(obj._fields[field_name], DateTimeField):
-                return_data.append((field_name, str(data.isoformat())))
+        if isinstance(obj._fields[field_name], DateTimeField):
+            return_data.append((field_name, str(data.isoformat())))
 
-            elif isinstance(obj._fields[field_name], StringField):
-                return_data.append((field_name, str(data)))
+        elif isinstance(obj._fields[field_name], StringField):
+            return_data.append((field_name, str(data)))
 
-            elif isinstance(obj._fields[field_name], FloatField):
-                return_data.append((field_name, float(data)))
+        elif isinstance(obj._fields[field_name], FloatField):
+            return_data.append((field_name, float(data)))
 
-            elif isinstance(obj._fields[field_name], IntField):
-                return_data.append((field_name, int(data)))
+        elif isinstance(obj._fields[field_name], IntField):
+            return_data.append((field_name, int(data)))
 
-            elif isinstance(obj._fields[field_name], ListField):
-                return_data.append((field_name, data))
+        elif isinstance(obj._fields[field_name], ListField):
+            return_data.append((field_name, data))
 
-            elif isinstance(obj._fields[field_name], EmbeddedDocumentField):
-                return_data.append((field_name, to_dict(data)))
+        elif isinstance(obj._fields[field_name], EmbeddedDocumentField):
+            return_data.append((field_name, to_dict(data)))
 
-            elif isinstance(obj._fields[field_name], ObjectIdField):
-                return_data.append((field_name, str(data)))
+        elif isinstance(obj._fields[field_name], ObjectIdField):
+            return_data.append((field_name, str(data)))
 
-            else:
-                print type(obj._fields[field_name])
+        else:
+            print type(obj._fields[field_name])
 
-        return dict(return_data)
+    return dict(return_data)
 
-
-class User(JSONConvertible):
+class User(DynamicDocument):
     first_name = StringField(required=True)
     last_name = StringField(required=True)
     username = StringField(required=True, max_length=20, unique=True)
@@ -54,7 +51,7 @@ class User(JSONConvertible):
     password = StringField(max_length=255, required=True)
 
 
-class Place(JSONConvertible):
+class Place(DynamicDocument):
     name = StringField(required=True)
     description = StringField(required=True)
     latitude = FloatField(required=True)
@@ -63,8 +60,7 @@ class Place(JSONConvertible):
     user = ReferenceField('User', required=True)
     category = StringField()
 
-
-class Comment(JSONConvertible):
+class Comment(DynamicDocument):
     user = ReferenceField('User', required=True)
     place = ReferenceField('Place', required=True)
     text = StringField(required=True)

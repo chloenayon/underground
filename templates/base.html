@@ -98,7 +98,7 @@
         <hr>
         <div class="modal-body">
           <div style="display:none;" class="progress-circle-indeterminate progress-circle-primary"></div>
-          <form class="form-default" role="form" id="addPlaceForm">
+          <form class="form-default" role="form" id="addPlaceForm" method="post" action="/places">
             <div class="row">
               <div class="col-sm-12">
                 <div class="form-group">
@@ -261,6 +261,9 @@
                 <div class="form-group">
                   <label>Address</label>
                   <input type="text" name="address" class="form-control">
+                </div>
+                <div class="sm-p-t-10 clearfix">
+                  <button type="submit" class="btn btn-primary font-montserrat all-caps fs-12 pull-right xs-pull-left">Submit</button>
                 </div>
               </div>
             </div>

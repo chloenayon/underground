@@ -1,0 +1,116 @@
+{% extends "base.html" %} {% block title %} {{place.name}} {% endblock %} {% block content %}
+<nav class="header bg-header transparent-light" data-pages="header" data-pages-header="autoresize" data-pages-resize-class="dark">
+  <div class="container relative">
+    <div class="pull-left">
+      <!-- .header-inner Allows to vertically Align elements to the Center-->
+      <div class="header-inner">
+        <!-- BEGIN LOGO -->
+        <img src="/static/img/logo.png" width="200" height="21" data-src-retina="/static/img/logo.png" class="logo" alt="">
+        <img src="/static/img/logo-whit.png" width="200" height="21" data-src-retina="/static/img/logo-white.png" class="alt" alt="">
+      </div>
+    </div>
+
+    <div class="pull-right clearfix" id="header">
+
+      <div class="header-inner">
+        <ul class="menu">
+          {% if current_user %}
+          <li>
+            <a class="text-black" href="/user/{{current_user.username}}">My Places</a>
+          </li>
+          <li>
+            <a class="text-black">Hello {{current_user.first_name}}</a>
+          </li>
+          <li>
+            <a class="btn btn-primary btn-cons" href="#" data-toggle="modal" data-target="#addPlaceModal">Add Place</a>
+          </li>
+          {% else %}
+          <li>
+            <a class="btn btn-primary btn-cons" href="/signup" data-text="Sign up">Sign up</a>
+          </li>
+          <li>
+            <a class="btn btn-cons" href="/login" data-text="Log in">Log in</a>
+          </li>
+          {% endif %}
+        </ul>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<section>
+  <!-- START GOOGLE MAP -->
+  <section class="container-fluid no-padding no-overflow" data-pages="parallax">
+    <!-- Map -->
+    <div class="full-width demo-map gradient-overlay no-overflow inner" id="mapsm" data-lat="{{place.latitude}}" data-lon="{{place.longitude}}" data-cat="{{place.category}}"></div>
+  </section>
+  <!-- END GOOGLE MAP -->
+  <!-- START CONTACT SECTION -->
+  <section class="container container-fixed-lg p-t-50 p-b-100 sm-p-b-30 sm-m-b-30">
+    <div class="row">
+      <div class="col-md-6">
+        <h2>
+          {{place.name}}
+        </h2>
+        <h3>
+          by {{user.first_name}} {{user.last_name}} (<span class="semi-bold">@{{user.username}}</span>)
+        </h3>
+        <div class="p-r-40 sm-p-r-0">
+          <br>
+          <div class="row">
+            <div class="col-sm-12">
+              <h5 class="block-title hint-text m-b-0">
+                Description
+              </h5>
+              <p>
+                {{place.description}}
+              </p>
+              {% if address %}
+              <h5 class="block-title hint-text m-b-0">
+                Address
+              </h5>
+              <p>
+                {{place.address}}
+              </p>
+              {% endif %}
+              <h5 class="block-title hint-text m-b-0">
+                Location
+              </h5>
+              <p>
+                {{place.latitude}}, {{place.longitude}}
+              </p>
+            </div>
+          </div>
+          <br>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="visible-xs visible-sm b-b b-grey-light m-t-35 m-b-30"></div>
+        <div class="p-l-40 sm-p-l-0 sm-p-t-10">
+          <div class="panel" id="contact-panel">
+            <h5 class="block-title hint-text m-b-0">
+              Comments
+            </h5>
+            <form role="form" autocomplete="off" class="m-t-15" id="contact-form" action="_lib/mail.php" method="post">
+              <div class="form-group form-group-default">
+                <label>Message</label>
+                <textarea name="message" placeholder="Type the message you wish to send" style="height:100px" class="form-control" required></textarea>
+              </div>
+              <div class="sm-p-t-10 clearfix">
+                <p class="pull-left small hint-text m-t-5 font-arial">I hereby certify that the information above is true and accurate. </p>
+                <button class="btn btn-primary font-montserrat all-caps fs-12 pull-right xs-pull-left">Submit</button>
+              </div>
+              <div class="clearfix"></div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- END CONTACT SECION -->
+</section>
+
+
+{% endblock %} {% block foot %} {{ super() }}
+<script src="/static/js/place.js" charset="utf-8"></script>
+{% endblock %}
