@@ -1,6 +1,7 @@
 from flask import *
 from models import *
 import datetime
+import os
 app = Flask(__name__)
 
 try:
@@ -8,7 +9,7 @@ try:
 except Exception as e:
     print e
 else:
-    print 'YOU WILL DO THIS'
+    print 'Mongo Connected'
 
 @app.route('/', methods=["GET"])
 def home():
@@ -321,8 +322,7 @@ def page_not_found(error):
     current_user = get_current_user(session)
     return render_template('404.html', current_user=current_user.to_dict()), 404
 
-
 if __name__ == "__main__":
-    app.debug = True
+    port = int(os.environ.get("PORT", 5000))
     app.secret_key = "EFAB22A53737A1C6BD7F5575A9FA1"
-    app.run('0.0.0.0', port=8000)
+    app.run(host='0.0.0.0', port=port)
