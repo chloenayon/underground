@@ -52,9 +52,9 @@
         <h2>
           {{place.name}}
         </h2>
-        <h3>
+        <h4>
           by {{place.user.first_name}} {{place.user.last_name}} (<span class="semi-bold">@{{place.user.username}}</span>)
-        </h3>
+        </h4>
         <div class="p-r-40 sm-p-r-0">
           <br>
           <div class="row">
@@ -94,8 +94,8 @@
             <ul>
               {% for comment in comments %}
               <li>
-                <a href="/users/{{comment.user.name}}">John Smith (@smith)</a><br>
-                <p>ewuifhiqfuiqwegfgeqwufgywgyugwyuegcuqgfeuywgfyuwqyufyueqwyugqfwyugfyu</p>
+                <a href="/users/{{comment.user.name}}">{{comment.user.first_name}} {{comment.user.last_name}} (@{{comment.user.username}}) on {{comment.date}}</a><br>
+                <p>{{comment.text}}</p>
               </li>
               {% endfor %}
             </ul>
