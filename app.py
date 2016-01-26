@@ -1,6 +1,6 @@
 from flask import *
 from models import *
-
+import datetime
 app = Flask(__name__)
 
 try:
@@ -52,7 +52,6 @@ def signup():
             email=request.form['email'],
             password=request.form['password']
         )
-
         try:
             user.save()
         except Exception as error:
@@ -262,7 +261,7 @@ def edit_place(place_id):
             return redirect(url_for('home'))
 
 
-@app.route('/places/<string:place_id>/comments', methods=["POST"])
+@app.route('/places/<string:place_id>/comments', methods=["GET", "POST"])
 def add_comment(place_id):
     """
     description: Handles the add comment logic
@@ -271,8 +270,8 @@ def add_comment(place_id):
 
     redirects to the view place page on success or failure
     """
-    user = get_current_user(session)
-    if user is None:
+    current_user = get_current_user(session)
+    if current_user is None:
         return redirect(url_for('view_place', place_id=place_id))
 
     place = Place.objects(id=place_id).first()
@@ -281,8 +280,9 @@ def add_comment(place_id):
 
     comment = Comment(
         place=place,
-        user=user,
-        text=request.form['text']
+        user=current_user,
+        text=request.form.get('text'),
+        date=datetime.date.today().strftime('%b %d, %Y')
     )
 
     try:
@@ -290,7 +290,7 @@ def add_comment(place_id):
     except ValidationError as error:
         return render_template('place.html', current_user=current_user.to_dict(), error='Problem saving your comment')
     else:
-        return redirect(url_for('place', place_id=place_id))
+        return redirect(url_for('view_place', place_id=place_id))
 
 
 @app.route('/search', methods=["GET"])

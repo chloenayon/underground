@@ -6,7 +6,7 @@
           <div class="header-inner">
             <!-- BEGIN LOGO -->
             <img src="/static/img/logo.png" width="200" height="21" data-src-retina="/static/img/logo.png" class="logo" alt="">
-            <img src="/static/img/logo-whit.png" width="200" height="21" data-src-retina="/static/img/logo-white.png" class="alt" alt="">
+            <img src="/static/img/logo-white.png" width="200" height="21" data-src-retina="/static/img/logo-white.png" class="alt" alt="">
           </div>
         </div>
 
@@ -23,6 +23,9 @@
           </li>
           <li>
             <a class="btn btn-primary btn-cons" href="#" data-toggle="modal" data-target="#addPlaceModal">Add Place</a>
+          </li>
+          <li>
+            <a href="/logout" class="text-black">Logout</a>
           </li>
           {% else %}
           <li>
@@ -61,52 +64,29 @@
 
 {% if places %}
 <script>
-  var myLayer = L.mapbox.featureLayer().addTo(map);
 
-  var geoJson = [
+  geoJson = [
 
-    {% for place in place %}
+    {% for place in places %}
     {
       type: 'Feature',
       "geometry": {
         "type": "Point",
-        "coordinates": [{{place.longitude}}, {{place.latitude}}]
+        "coordinates": [{{place.latitude}},{{place.longitude}}]
       },
       "properties": {
         'id': '{{place.id}}',
         'name': '{{place.name}}',
         'description': '{{place.description}}',
-        'address': '{{place.address}}'
+        'address': '{{place.address}}',
         "marker-symbol": '{{place.category}}',
-        "marker-color": "#ff8888",
-        "marker-size": "large",
-        "city": "Washington, D.C."
+        "marker-color": "#6d5cae",
+        "marker-size": "large"
       }
     }
     {% if not loop.last %},{% endif %}
     {% endfor %}
   ];
-
-  // Add custom popups to each using our custom feature properties
-  myLayer.on('layeradd', function(e) {
-    var marker = e.layer,
-      feature = marker.feature;
-
-    // Create custom popup content
-    var popupContent = '<a target="_blank" class="popup" href="' + feature.properties.url + '">' +
-      '<img src="' + feature.properties.image + '" />' +
-      feature.properties.city +
-      '</a>';
-
-    // http://leafletjs.com/reference.html#popup
-    marker.bindPopup(popupContent, {
-      closeButton: false,
-      minWidth: 320
-    });
-  });
-
-  // Add features to the map
-  myLayer.setGeoJSON(geoJson);
 </script>
 {% endif %}
 

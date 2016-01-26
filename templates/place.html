@@ -16,7 +16,7 @@
         <ul class="menu">
           {% if current_user %}
           <li>
-            <a class="text-black" href="/user/{{current_user.username}}">My Places</a>
+            <a class="text-black" href="/users/{{current_user.username}}">My Places</a>
           </li>
           <li>
             <a class="text-black">Hello {{current_user.first_name}}</a>
@@ -102,7 +102,7 @@
             <form role="form" autocomplete="off" class="m-t-15" id="comments-form" action="/places/{{place.id}}/comments" method="post">
               <div class="form-group form-group-default">
                 <label>Message</label>
-                <textarea name="message" placeholder="Type your comments" style="height:100px" class="form-control" required></textarea>
+                <textarea name="text" placeholder="Type your comments" style="height:100px" class="form-control" required></textarea>
               </div>
               <div class="sm-p-t-10 clearfix">
                 <button class="btn btn-primary font-montserrat all-caps fs-12 pull-right xs-pull-left">Submit</button>

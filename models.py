@@ -50,10 +50,7 @@ class Comment(DynamicDocument):
     user = ReferenceField('User', required=True)
     place = ReferenceField('Place', required=True)
     text = StringField(required=True)
-    date = DateTimeField(required=True)
-
-    def pre_save(cls, sender, document, **kwargs):
-        document.date = datetime.utcnow()
+    date = StringField(required=True)
 
     def to_dict(self):
         return {
