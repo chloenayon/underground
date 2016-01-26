@@ -70,12 +70,14 @@
       type: 'Feature',
       "geometry": {
         "type": "Point",
-        "coordinates": [-77.03, 38.90]
+        "coordinates": [{{place.longitude}}, {{place.latitude}}]
       },
       "properties": {
-        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ef/Cherry_Blossoms_and_Washington_Monument.jpg/320px-Cherry_Blossoms_and_Washington_Monument.jpg",
-        "url": "https://en.wikipedia.org/wiki/Washington,_D.C.",
-        "marker-symbol": "star",
+        'id': '{{place.id}}',
+        'name': '{{place.name}}',
+        'description': '{{place.description}}',
+        'address': '{{place.address}}'
+        "marker-symbol": '{{place.category}}',
         "marker-color": "#ff8888",
         "marker-size": "large",
         "city": "Washington, D.C."
