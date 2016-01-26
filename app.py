@@ -9,7 +9,7 @@ try:
 except Exception as e:
     print e
 else:
-    print 'help'
+    print 'YOU WILL DO THIS'
 
 
 @app.route('/', methods=["GET"])
@@ -25,8 +25,6 @@ def home():
     if current_user is None:
         return render_template('home.html')
     else:
-        print 'yo'
-        print current_user.to_dict()
         return render_template('home.html', current_user=current_user.to_dict())
 
 
@@ -43,7 +41,7 @@ def login():
     """
     current_user = get_current_user(session)
     if current_user is not None:
-        return redirct(url_for('home'))
+        return redirect(url_for('home'))
 
     if request.method == 'GET':
         return render_template('login.html')
@@ -77,7 +75,7 @@ def signup():
     """
     current_user = get_current_user(session)
     if current_user is not None:
-        return redirct(url_for('home'))
+        return redirect(url_for('home'))
 
     if request.method == 'GET':
         return render_template('signup.html')
@@ -114,7 +112,7 @@ def profile(username):
         abort(404)
     else:
         places = Place.objects(user=user).all()
-        return render_template('profile.html', current_user=current_user, user=user, places=places)
+        return render_template('profile.html', current_user=current_user.to_dict(), user=user.to_dict(), places=places)
 
 
 @app.route('/users/<string:username>/edit', methods=["GET", "POST"])
@@ -319,8 +317,8 @@ def page_not_found(error):
 
     authentication: none
     """
-    user = get_current_user(session)
-    return render_template('404.html', user=user), 404
+    current_user = get_current_user(session)
+    return render_template('404.html', current_user=current_user.to_dict()), 404
 
 
 if __name__ == "__main__":

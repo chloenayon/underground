@@ -1,1 +1,61 @@
-yo
+{% extends "base.html" %} {% block title %} Not Found {% endblock %} {% block content %}
+<nav class="header bg-header transparent-light" data-pages="header" data-pages-header="autoresize" data-pages-resize-class="dark">
+  <div class="container relative">
+
+
+    <div class="pull-right clearfix"  id="header">
+
+      <div class="header-inner">
+        <ul class="menu">
+          {% if current_user %}
+          <li>
+            <a href="/myplaces">My Places</a>
+          </li>
+          <li>
+            <a href="/favorites">Favorites</a>
+          </li>
+          <li>
+            <a href="/users/{{current_user.username}}">My Profile</a>
+          </li>
+          <li>
+            <a href="/users/{{current_user.username}}">Hello {{current_user.first_name}}</a>
+          </li>
+          <li>
+            <a class="btn btn-cons" href="/places/create">Add Place</a>
+          </li>
+          {% else %}
+          <li>
+            <a class="btn btn-primary btn-cons" href="/signup" data-text="Sign up">Sign up</a>
+          </li>
+          <li>
+            <a class="btn btn-cons" href="/login" data-text="Log in">Log in</a>
+          </li>
+          {% endif %}
+        </ul>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<div class="container-xs-height full-height">
+  <div class="row-xs-height">
+    <div class="col-xs-height col-middle">
+      <div class="error-container text-center">
+        <h1 class="error-number">404</h1>
+        <h2 class="semi-bold">Sorry but we couldnt find this page</h2>
+        <p>This page you are looking for does not exsist <a href="#">Report this?</a>
+        </p>
+        <div class="error-container-innner text-center">
+          <form>
+            <div class="form-group form-group-default input-group transparent text-left">
+              <label>Search</label>
+              <input class="form-control" placeholder="Try searching the missing page" type="email"> <span class="input-group-addon"><i class="pg-search"></i></span>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}
