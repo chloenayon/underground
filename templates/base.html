@@ -97,6 +97,7 @@
         </div>
         <hr>
         <div class="modal-body">
+          <div style="display:none;" class="progress-circle-indeterminate progress-circle-primary"></div>
           <form class="form-default" role="form" id="addPlaceForm">
             <div class="row">
               <div class="col-sm-12">
@@ -110,18 +111,7 @@
               <div class="col-sm-12">
                 <div class="form-group">
                   <label>Category</label>
-                  <select class="full-width" data-init-plugin="select2">
-                    <option value="circle-stroked">Circle stroked</option>
-                    <option value="circle">Square stroked</option>
-                    <option value="square-stroked">Square solid</option>
-                    <option value="square"></option>
-                    <option value="triangle-stroked">Triangle stroked</option>
-                    <option value="triangle">Star stroked</option>
-                    <option value="star-stroked">Star solid</option>
-                    <option value="star">Cross</option>
-                    <option value="cross"></option>
-                    <option value="marker-stroked">Marker Stroke</option>
-                    <option value="marker">Marker Solid</option>
+                  <select class="full-width" data-init-plugin="select2" name="category">
                     <option value="religious-jewish">Religious Jewish</option>
                     <option value="religious-christian">Religious Christian</option>
                     <option value="religious-muslim">Religious Muslim</option>
@@ -229,6 +219,17 @@
                     <option value="ice-cream">Ice cream</option>
                     <option value="dentist">Dentist</option>
                     <option value="aerialway">Aerialway</option>
+                    <option value="circle-stroked">Circle stroked</option>
+                    <option value="circle">Square stroked</option>
+                    <option value="square-stroked">Square solid</option>
+                    <option value="square"></option>
+                    <option value="triangle-stroked">Triangle stroked</option>
+                    <option value="triangle">Star stroked</option>
+                    <option value="star-stroked">Star solid</option>
+                    <option value="star">Cross</option>
+                    <option value="cross"></option>
+                    <option value="marker-stroked">Marker Stroke</option>
+                    <option value="marker">Marker Solid</option>
                   </select>
                 </div>
               </div>
