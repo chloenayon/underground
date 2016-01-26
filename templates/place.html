@@ -53,7 +53,7 @@
           {{place.name}}
         </h2>
         <h3>
-          by {{user.first_name}} {{user.last_name}} (<span class="semi-bold">@{{user.username}}</span>)
+          by {{place.user.first_name}} {{place.user.last_name}} (<span class="semi-bold">@{{place.user.username}}</span>)
         </h3>
         <div class="p-r-40 sm-p-r-0">
           <br>
@@ -87,17 +87,24 @@
       <div class="col-md-6">
         <div class="visible-xs visible-sm b-b b-grey-light m-t-35 m-b-30"></div>
         <div class="p-l-40 sm-p-l-0 sm-p-t-10">
-          <div class="panel" id="contact-panel">
+          <div class="panel" id="comments-panel">
             <h5 class="block-title hint-text m-b-0">
               Comments
             </h5>
-            <form role="form" autocomplete="off" class="m-t-15" id="contact-form" action="_lib/mail.php" method="post">
+            <ul>
+              {% for comment in comments %}
+              <li>
+                <a href="/users/{{comment.user.name}}">John Smith (@smith)</a><br>
+                <p>ewuifhiqfuiqwegfgeqwufgywgyugwyuegcuqgfeuywgfyuwqyufyueqwyugqfwyugfyu</p>
+              </li>
+              {% endfor %}
+            </ul>
+            <form role="form" autocomplete="off" class="m-t-15" id="comments-form" action="/places/{{place.id}}/comments" method="post">
               <div class="form-group form-group-default">
                 <label>Message</label>
-                <textarea name="message" placeholder="Type the message you wish to send" style="height:100px" class="form-control" required></textarea>
+                <textarea name="message" placeholder="Type your comments" style="height:100px" class="form-control" required></textarea>
               </div>
               <div class="sm-p-t-10 clearfix">
-                <p class="pull-left small hint-text m-t-5 font-arial">I hereby certify that the information above is true and accurate. </p>
                 <button class="btn btn-primary font-montserrat all-caps fs-12 pull-right xs-pull-left">Submit</button>
               </div>
               <div class="clearfix"></div>

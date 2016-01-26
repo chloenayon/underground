@@ -23,7 +23,7 @@ def home():
     if current_user is None:
         return render_template('home.html')
     else:
-        return render_template('home.html', current_user=mongo_to_dict(current_user))
+        return render_template('home.html', current_user=current_user.to_dict())
 
 @app.route('/signup', methods=["GET", "POST"])
 def signup():
@@ -58,7 +58,7 @@ def signup():
         except Exception as error:
             return render_template('signup.html', error="Username or email is taken")
         else:
-            session['user'] = mongo_to_dict(user)
+            session['user'] = user.to_dict()
             return redirect(url_for('home'))
 
 @app.route('/login', methods=["GET", "POST"])
@@ -89,7 +89,7 @@ def login():
             return render_template('login.html', error='User doesn\'t exist')
         else:
             if user.password == password:
-                session['user'] = mongo_to_dict(user)
+                session['user'] = user.to_dict()
                 return redirect(url_for('home'))
             else:
                 return render_template('login.html', error='Password incorrect')
@@ -116,7 +116,7 @@ def profile(username):
         for place in Place.objects(user=user).all():
             places.append(place.to_dict())
 
-        return render_template('profile.html', current_user=mongo_to_dict(current_user), user=mongo_to_dict(user), places=places)
+        return render_template('profile.html', current_user=current_user.to_dict(), user=user.to_dict(), places=places)
 
 
 @app.route('/users/<string:username>/edit', methods=["POST"])
@@ -204,12 +204,13 @@ def view_place(place_id):
     if place == None:
         abort(404)
     else:
-        # print mongo_to_dict(place)
-        print mongo_to_dict(place.user)
-        return render_template('place.html', current_user=mongo_to_dict(current_user), place=mongo_to_dict(place), user=mongo_to_dict(place.user))
+        comments = []
+        for comment in Comment.objects(place=place_id).all():
+            comments.append(comment.to_dict())
+        return render_template('place.html', current_user=current_user.to_dict(), place=place.to_dict(), comments=comments)
 
 
-@app.route('/places/<string:place_id>/edit', methods=['GET', 'PUT', 'DELETE'])
+@app.route('/places/<string:place_id>/edit', methods=['POST'])
 def edit_place(place_id):
     """
     description: Renders the edit place page, handles the edit place logic, handles the delete page logic
@@ -218,8 +219,8 @@ def edit_place(place_id):
 
     user must be the owner of the place to edit or delete it
     """
-    user = get_current_user(session)
-    if user is None:
+    current_user = get_current_user(session)
+    if current_user is None:
         return redirect(url_for('view_place', place_id=place_id))
 
     place = Place.objects(id=place_id).first()
@@ -228,9 +229,6 @@ def edit_place(place_id):
 
     if place.user != user:
         return redirect(url_for('view_place', place_id=place.id))
-
-    if request.method == 'GET':
-        return render_template('edit_place.html', user=user, place=place)
 
     if request.method == 'PUT':
         if request.form.get('name') is not None:
@@ -251,7 +249,7 @@ def edit_place(place_id):
         try:
             place.save()
         except ValidationError as error:
-            return render_template('edit_place.html', current_user=mongo_to_dict(current_user), error='something happened')
+            return render_template('edit_place.html', current_user=current_user.to_dict(), error='something happened')
         else:
             return redirect(url_for('view_place', place_id=place.id))
 
@@ -290,7 +288,7 @@ def add_comment(place_id):
     try:
         comment.save()
     except ValidationError as error:
-        return render_template('place.html', current_user=mongo_to_dict(current_user), error='Problem saving your comment')
+        return render_template('place.html', current_user=current_user.to_dict(), error='Problem saving your comment')
     else:
         return redirect(url_for('place', place_id=place_id))
 
@@ -308,10 +306,9 @@ def search():
         return redirect(url_for('home'))
     else:
         places = []
-
         for place in Place.objects.search_text(q).all():
-            places.append(mongo_to_dict(place))
-        return render_template('search.html', current_user=mongo_to_dict(current_user), places=places)
+            places.append(place.to_dict())
+        return render_template('search.html', current_user=current_user.to_dict(), places=places)
 
 
 @app.errorhandler(404)
@@ -322,7 +319,7 @@ def page_not_found(error):
     authentication: none
     """
     current_user = get_current_user(session)
-    return render_template('404.html', current_user=mongo_to_dict(current_user)), 404
+    return render_template('404.html', current_user=current_user.to_dict()), 404
 
 
 if __name__ == "__main__":
