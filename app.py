@@ -3,6 +3,14 @@ from models import *
 
 app = Flask(__name__)
 
+try:
+    connect('heroku_1p1fq4fq',
+            host='mongodb://heroku_1p1fq4fq:n28s1p9g2mtingmu9ideuk9j04@ds049935.mongolab.com:49935/heroku_1p1fq4fq')
+except Exception as e:
+    print e
+else:
+    print 'help'
+
 
 @app.route('/', methods=["GET"])
 def home():
@@ -12,11 +20,13 @@ def home():
     authentication: none
 
     """
-    user = session.get('user', None)
-    if user is None:
+    print session
+
+    current_user = get_current_user(session)
+    if current_user is None:
         return render_template('home.html')
     else:
-        return render_template('home.html', user=user)
+        return render_template('home.html', current_user=current_user.to_dict())
 
 
 @app.route('/login', methods=["GET", "POST"])
@@ -30,8 +40,8 @@ def login():
     if the user is not logged in renders the login page
     if the credentials are incorrect it redisplays the login page with errors
     """
-    user = session.get('user', None)
-    if user is not None:
+    current_user = get_current_user(session)
+    if current_user is not None:
         return redirct(url_for('home'))
 
     if request.method == 'GET':
@@ -41,14 +51,18 @@ def login():
         username = request.form['username']
         password = request.form['password']
 
+        for user in User.objects:
+            print user.to_dict()
+
+
         user = User.objects(username=username).first()
 
         if user == None:
             return render_template('login.html', error='User doesn\'t exist')
         else:
-            if user.verify_password(password=password):
-                session['user'] = user
-                return redirct(url_for('home'))
+            if user.password == password:
+                session['username'] = user.username
+                return redirect(url_for('home'))
             else:
                 return render_template('login.html', error='Password incorrect')
 
@@ -64,8 +78,8 @@ def signup():
     if the user is not logged in renders the sign up page
     if the data is incorrect it redisplays the sign up page with errors
     """
-    user = session.get('user', None)
-    if user is not None:
+    current_user = get_current_user(session)
+    if current_user is not None:
         return redirct(url_for('home'))
 
     if request.method == 'GET':
@@ -73,10 +87,12 @@ def signup():
 
     if request.method == 'POST':
 
+        print session['username']
+
         user = User(
             username=request.form['username'],
-            first_name=request.form['firstName'],
-            last_name=request.form['lastName'],
+            first_name=request.form['first_name'],
+            last_name=request.form['last_name'],
             email=request.form['email'],
             password=request.form['password']
         )
@@ -86,39 +102,25 @@ def signup():
         except ValidationError as error:
             return render_template('signup.html', errors=error.to_dict())
         else:
-            session['user'] = user
+            session['username'] = user.username
             return redirect(url_for('home'))
 
 
 @app.route('/users/<string:username>', methods=["GET"])
-def user_profile(username):
+def profile(username):
     """
     description: Renders the user profile, lists places, favorites
 
     authentication: none
     """
-
+    current_user = get_current_user(session)
     user = User.objects(username=username).first()
     if user == None:
         abort(404)
     else:
         places = Place.objects(user=user).all()
-        return render_template('user_profile.html', user=user, places=places)
+        return render_template('profile.html', current_user=current_user, user=user, places=places)
 
-@app.route('/users/<string:username>/favorites', methods=["GET"])
-def user_favorites(username):
-    """
-    description: Renders the users favorites page
-
-    authentication: none
-    """
-
-    user = User.objects(username=username).first()
-    if user == None:
-        abort(404)
-    else:
-        places = user.favorites
-        return render_template('favorites.html', user=user, places=places)
 
 @app.route('/users/<string:username>/edit', methods=["GET", "POST"])
 def edit_user(username):
@@ -127,21 +129,20 @@ def edit_user(username):
 
     authentication: required
     """
-
-    user = session.get('user', None)
-    if user is None:
+    current_user = get_current_user(session)
+    if current_user is None:
         return abort(404)
 
     if request.method == 'GET':
         if username != user.username:
-            return redirect(url_for('user_profile', username=username))
+            return redirect(url_for('profile', username=username))
         else:
             return render_template('edit_user.html', user=user)
 
     if request.method == 'POST':
 
         if user.username != username:
-            return redirect(url_for('user_profile', username=username))
+            return redirect(url_for('profile', username=username))
         else:
             if request.form['firstName'] is not None:
                 user.first_name = request.form['firstName']
@@ -164,7 +165,7 @@ def edit_user(username):
                 return render_template('edit_user.html', user=user, errors=error.to_dict())
             else:
                 session['user'] = user
-                return redirect(url_for('user_profile', username=user.username))
+                return redirect(url_for('profile', username=user.username))
 
 
 @app.route('/places/create', methods=["GET", "POST"])
@@ -174,7 +175,7 @@ def create_place():
 
     authentication: required
     """
-    user = session.get('user', None)
+    user = get_current_user(session)
     if user is None:
         return redirect(url_for('home'))
 
@@ -205,7 +206,7 @@ def view_place(place_id):
 
     authentication: none
     """
-    user = session.get('user', None)
+    user = get_current_user(session)
     place = Place.objects(id=place_id).first()
     if place == None:
         abort(404)
@@ -223,7 +224,7 @@ def edit_place(place_id):
 
     user must be the owner of the place to edit or delete it
     """
-    user = session.get('user', None)
+    user = get_current_user(session)
     if user is None:
         return redirect(url_for('view_place', place_id=place_id))
 
@@ -278,7 +279,7 @@ def add_comment(place_id):
 
     redirects to the view place page on success or failure
     """
-    user = session.get('user', None)
+    user = get_current_user(session)
     if user is None:
         return redirect(url_for('view_place', place_id=place_id))
 
@@ -307,7 +308,7 @@ def search():
 
     authentication: none
     """
-    user = session.get('user', None)
+    user = get_current_user(session)
     q = request.args.get('q')
     if q is None:
         return render_template('search.html', user=user)
@@ -323,7 +324,7 @@ def page_not_found(error):
 
     authentication: none
     """
-    user = session.get('user', None)
+    user = get_current_user(session)
     return render_template('404.html', user=user), 404
 
 
