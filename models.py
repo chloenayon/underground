@@ -33,8 +33,8 @@ class User(DynamicDocument):
 class Place(DynamicDocument):
     name = StringField(required=True)
     description = StringField(required=True)
-    location = PointField()
-    address = StringField(required=True)
+    location = PointField(required=True)
+    address = StringField()
     user = ReferenceField('User', required=True)
 
 class Comment(DynamicDocument):

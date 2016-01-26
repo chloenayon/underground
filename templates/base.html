@@ -16,8 +16,11 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/css/bootstrap.min.css" media="screen" title="no title" charset="utf-8">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css" media="screen" title="no title" charset="utf-8">
   <link rel="stylesheet" href="https://api.mapbox.com/mapbox.js/v2.2.4/mapbox.css" media="screen" title="no title" charset="utf-8">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/3.5.1/select2.min.css" media="screen" title="no title" charset="utf-8"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/3.5.1/select2-bootstrap.min.css" media="screen" title="no title" charset="utf-8"/>
   <link rel="stylesheet" href="static/css/pages.css" media="screen" title="no title" charset="utf-8">
   <link rel="stylesheet" href="static/css/pages-icons.css" media="screen" title="no title" charset="utf-8">
+  <link rel="stylesheet" href="static/css/site.css" media="screen" title="no title" charset="utf-8">
   <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
   <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
   <!--[if lt IE 9]>
@@ -28,18 +31,277 @@
 </head>
 
 <body>
-
+  <!-- Content -->
   {% block content %}{% endblock %}
+  <!-- Content -->
 
+  <!-- Foot -->
   {% block foot %}
   <script src="https://cdnjs.cloudflare.com/ajax/libs/pace/1.0.2/pace.min.js" charset="utf-8"></script>
   <script src="static/js/pages.image.loader.js" charset="utf-8"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.1/jquery.min.js" charset="utf-8"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/unveil/1.3.0/jquery.unveil.min.js" charset="utf-8"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/js/bootstrap.min.js" charset="utf-8"></script>
   <script src="https://api.mapbox.com/mapbox.js/v2.2.4/mapbox.js" charset="utf-8"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/3.5.1/select2.min.js"></script>
   <script src="static/js/pages.frontend.js" charset="utf-8"></script>
+  <script src="static/js/site.js" charset="utf-8"></script>
   {% endblock %}
+  <!-- Foot -->
 
+  <!-- Search Modal -->
+  <div class="modal fade fill-in" id="searchModal" tabindex="-1" role="dialog" aria-labelledby="modalFillInLabel" aria-hidden="true">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+      <i class="pg-close"></i>
+    </button>
+    <div class="modal-dialog ">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="text-left p-b-5">
+            <span class="semi-bold">Search</span>
+          </h5>
+        </div>
+        <div class="modal-body">
+          <form action="/search" method="get">
+            <div class="row">
+              <div class="col-md-9">
+                <input type="text" placeholder="I'm looking for..." class="form-control input-lg" name="q" required="">
+              </div>
+              <div class="col-md-3 text-center">
+                <button type="submit" class="btn btn-primary btn-lg btn-large fs-15">Search</button>
+              </div>
+            </div>
+          </form>
+          {% if not user %}
+          <p class="text-right hinted-text p-t-10 p-r-10">Sign up to save your favorite places</p>{% endif %}
+        </div>
+        <div class="modal-footer">
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Search Modal -->
+
+  <!-- Add Place Modal -->
+  <div class="modal fade stick-up" id="addPlaceModal" tabindex="-1" role="dialog" aria-labelledby="addPlaceModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header clearfix text-left">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+            <i class="pg-close fs-14"></i>
+          </button>
+          <h5>Add new
+            <span class="semi-bold">Place</span>
+          </h5>
+          <p>Just tell us a few things about your place...</p>
+        </div>
+        <hr>
+        <div class="modal-body">
+          <form class="form-default" role="form" id="addPlaceForm">
+            <div class="row">
+              <div class="col-sm-12">
+                <div class="form-group">
+                  <label>Name</label>
+                  <input type="text" name="name" class="form-control" required="" aria-required="true">
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-sm-12">
+                <div class="form-group">
+                  <label>Category</label>
+                  <select class="full-width" data-init-plugin="select2">
+                    <option value="circle-stroked">Circle stroked</option>
+                    <option value="circle">Square stroked</option>
+                    <option value="square-stroked">Square solid</option>
+                    <option value="square"></option>
+                    <option value="triangle-stroked">Triangle stroked</option>
+                    <option value="triangle">Star stroked</option>
+                    <option value="star-stroked">Star solid</option>
+                    <option value="star">Cross</option>
+                    <option value="cross"></option>
+                    <option value="marker-stroked">Marker Stroke</option>
+                    <option value="marker">Marker Solid</option>
+                    <option value="religious-jewish">Religious Jewish</option>
+                    <option value="religious-christian">Religious Christian</option>
+                    <option value="religious-muslim">Religious Muslim</option>
+                    <option value="cemetery">Cemetery</option>
+                    <option value="rocket">Rocket</option>
+                    <option value="airport">Airport</option>
+                    <option value="heliport">Heliport</option>
+                    <option value="rail">Rail</option>
+                    <option value="rail-metro">Rail Metro</option>
+                    <option value="rail-light">Rail Light</option>
+                    <option value="bus">Bus</option>
+                    <option value="fuel">Fuel</option>
+                    <option value="parking">Parking</option>
+                    <option value="parking-garage">Parking Garage</option>
+                    <option value="airfield">Airfield</option>
+                    <option value="roadblock">Roadblock</option>
+                    <option value="ferry">Ferry</option>
+                    <option value="harbor">Harbor</option>
+                    <option value="bicycle">Bicycle</option>
+                    <option value="park">Park</option>
+                    <option value="park2">Park 2</option>
+                    <option value="museum">Museum</option>
+                    <option value="lodging">Lodging</option>
+                    <option value="monument">Monument</option>
+                    <option value="zoo">Zoo</option>
+                    <option value="garden">Garden</option>
+                    <option value="campsite">Campsite</option>
+                    <option value="theatre">Campsite</option>
+                    <option value="art-gallery">Art gallery</option>
+                    <option value="pitch">Pitch</option>
+                    <option value="soccer">Soccer</option>
+                    <option value="america-football">American Football</option>
+                    <option value="tennis">Tennis</option>
+                    <option value="basketball">Basketball</option>
+                    <option value="baseball">Baseball</option>
+                    <option value="golf">Golf</option>
+                    <option value="swimming">Swimming</option>
+                    <option value="cricket">Cricket</option>
+                    <option value="skiing">Skiing</option>
+                    <option value="school">School</option>
+                    <option value="college">College</option>
+                    <option value="library">Library</option>
+                    <option value="post">Post</option>
+                    <option value="fire-station">Fire station</option>
+                    <option value="town-hall">Town hall</option>
+                    <option value="police">Police</option>
+                    <option value="prison">Prison</option>
+                    <option value="embassy">Embassy</option>
+                    <option value="beer">Beer</option>
+                    <option value="restaurant">Restaurant</option>
+                    <option value="cafe">Cafe</option>
+                    <option value="shop">Shop</option>
+                    <option value="fast-food">Fast Food</option>
+                    <option value="bar">Bar</option>
+                    <option value="bank">Bank</option>
+                    <option value="grocery">Grocery</option>
+                    <option value="cinema">Cinema</option>
+                    <option value="pharmacy">Pharmacy</option>
+                    <option value="hospital">Hospital</option>
+                    <option value="danger">Danger</option>
+                    <option value="industrial">Industrial</option>
+                    <option value="warehouse">Warehouse</option>
+                    <option value="commercial">Commercial</option>
+                    <option value="building">Building</option>
+                    <option value="place-of-worship">Place of worship</option>
+                    <option value="alcohol-shop">Alcohol shop</option>
+                    <option value="logging">Logging</option>
+                    <option value="oil-well">Oil well</option>
+                    <option value="slaughterhouse">Slaughterhouse</option>
+                    <option value="dam">Dam</option>
+                    <option value="water">Water</option>
+                    <option value="wetland">Wetland</option>
+                    <option value="disability">Disability</option>
+                    <option value="telephone">Telephone</option>
+                    <option value="emergency-telephone">Emergency Telephone</option>
+                    <option value="toilets">Toilets</option>
+                    <option value="waste-basket">Waste Basket</option>
+                    <option value="music">Music</option>
+                    <option value="land-use">Land Use</option>
+                    <option value="city">City</option>
+                    <option value="town">Town</option>
+                    <option value="village">Village</option>
+                    <option value="farm">Farm</option>
+                    <option value="bakery">Bakery</option>
+                    <option value="dog-park">Dog Park</option>
+                    <option value="lighthouse">Lighthouse</option>
+                    <option value="clothing-store">Clothing Store</option>
+                    <option value="polling-place">Polling Place</option>
+                    <option value="playground">Playground</option>
+                    <option value="entrance">Entrance</option>
+                    <option value="heart">Heart</option>
+                    <option value="london-underground">London Underground</option>
+                    <option value="minefield">Minefield</option>
+                    <option value="rail-underground">Rail Underground</option>
+                    <option value="rail-above">Rail Above</option>
+                    <option value="camera">Camera</option>
+                    <option value="laundry">Laundry</option>
+                    <option value="car">Car</option>
+                    <option value="suitcase">Suitcase</option>
+                    <option value="hairdresser">Hairdresser</option>
+                    <option value="chemist">Chemist</option>
+                    <option value="mobilephone">Mobile phone</option>
+                    <option value="scooter">Scooter</option>
+                    <option value="gift">Gift</option>
+                    <option value="ice-cream">Ice cream</option>
+                    <option value="dentist">Dentist</option>
+                    <option value="aerialway">Aerialway</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-sm-12">
+                <div class="form-group form-group-default">
+                  <label>Description</label>
+                  <textarea name="description" style="height:100px" class="form-control" required="" aria-required="true"></textarea>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-sm-6">
+                <div class="form-group">
+                  <label>Latitude</label>
+                  <input type="text" name="latitude" class="form-control" required="" aria-required="true">
+                </div>
+              </div>
+              <div class="col-sm-6">
+                <div class="form-group">
+                  <label>Longitude</label>
+                  <input type="text" name="longitude" class="form-control" required="" aria-required="true">
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-sm-12">
+                <div class="form-group">
+                  <label>Address</label>
+                  <input type="text" name="address" class="form-control">
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Add Place Modal -->
+
+  <!-- Error Modal -->
+  {% if errors or error %}
+  <div class="modal fade stick-up" id="errorModal" tabindex="-1" role="dialog" aria-labelledby="errorModal" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header clearfix text-left">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+            <i class="pg-close fs-14"></i>
+          </button>
+          <h5>Sorry, there were some
+            <span class="semi-bold">Errors</span>
+          </h5>
+          <p>Try again?</p>
+        </div>
+        <hr>
+        <div class="modal-body">
+          {% if error %}
+          <li>{{error}}</li>
+          {% else %} {% for key, val in errors %}
+          <li>{{key}} : {{val}}</li>
+          {% endfor %} {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+  <script>
+    $(document).ready(function() {
+      $('errorModal').modal()
+    })
+  </script>
+  {% endif %}
+  <!-- Error Modal -->
 </body>
 
 </html>
