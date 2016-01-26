@@ -10,7 +10,6 @@ except Exception as e:
 else:
     print 'YOU WILL DO THIS'
 
-
 @app.route('/', methods=["GET"])
 def home():
     """
@@ -25,41 +24,6 @@ def home():
         return render_template('home.html')
     else:
         return render_template('home.html', current_user=current_user.to_dict())
-
-
-@app.route('/login', methods=["GET", "POST"])
-def login():
-    """
-    description: Renders the login page and handles login process
-
-    authentication: none
-
-    if the user is logged in redirects to home
-    if the user is not logged in renders the login page
-    if the credentials are incorrect it redisplays the login page with errors
-    """
-    current_user = get_current_user(session)
-    if current_user is not None:
-        return redirect(url_for('home'))
-
-    if request.method == 'GET':
-        return render_template('login.html')
-
-    if request.method == 'POST':
-        username = request.form['username']
-        password = request.form['password']
-
-        user = User.objects(username=username).first()
-
-        if user == None:
-            return render_template('login.html', error='User doesn\'t exist')
-        else:
-            if user.password == password:
-                session['user'] = user.to_dict()
-                return redirect(url_for('home'))
-            else:
-                return render_template('login.html', error='Password incorrect')
-
 
 @app.route('/signup', methods=["GET", "POST"])
 def signup():
@@ -97,6 +61,43 @@ def signup():
             session['user'] = user.to_dict()
             return redirect(url_for('home'))
 
+@app.route('/login', methods=["GET", "POST"])
+def login():
+    """
+    description: Renders the login page and handles login process
+
+    authentication: none
+
+    if the user is logged in redirects to home
+    if the user is not logged in renders the login page
+    if the credentials are incorrect it redisplays the login page with errors
+    """
+    current_user = get_current_user(session)
+    if current_user is not None:
+        return redirect(url_for('home'))
+
+    if request.method == 'GET':
+        return render_template('login.html')
+
+    if request.method == 'POST':
+        username = request.form['username']
+        password = request.form['password']
+
+        user = User.objects(username=username).first()
+
+        if user == None:
+            return render_template('login.html', error='User doesn\'t exist')
+        else:
+            if user.password == password:
+                session['user'] = user.to_dict()
+                return redirect(url_for('home'))
+            else:
+                return render_template('login.html', error='Password incorrect')
+
+@app.route('/logout', methods=["GET"])
+def logout():
+    session.clear()
+    redirect(url_for('home'))
 
 @app.route('/users/<string:username>', methods=["GET"])
 def profile(username):
