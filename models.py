@@ -34,6 +34,13 @@ class Place(DynamicDocument):
     user = ReferenceField('User', required=True)
     category = StringField()
 
+    meta = {'indexes': [
+        {'fields': ['$name', "$description", "$address"],
+         'default_language': 'english',
+         'weights': {'title': 10, 'content': 5, 'address': 5}
+        }
+    ]}
+
     def to_dict(self):
         return {
             'id': str(self.id),
