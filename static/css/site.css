@@ -1,17 +1,19 @@
 html, body {
   height: 100%;
 }
-
 @media (max-width: 991px) {
-.header .menu > li {
-  display: inline-block !important;
+  .header .menu > li {
+    display: inline-block !important;
+  }
 }
+
+#map {
+  position: absolute;
+  width: 100%;
+  height: 100%;
 }
 
-
-
-.form-group-default .select2-container .select2-choice,
-.select2-container-multi .select2-choices {
+.form-group-default .select2-container .select2-choice, .select2-container-multi .select2-choices {
   border-color: transparent;
 }
 .select2-container .select2-choice {
@@ -46,14 +48,10 @@ html, body {
   border-bottom-right-radius: 2px;
   border-bottom-left-radius: 2px;
 }
-.select2-search input,
-.select2-search-choice-close,
-.select2-container .select2-choice abbr,
-.select2-container .select2-choice .select2-arrow b {
+.select2-search input, .select2-search-choice-close, .select2-container .select2-choice abbr, .select2-container .select2-choice .select2-arrow b {
   background-image: none !important;
 }
-.select2-dropdown-open.select2-drop-above .select2-choice,
-.select2-dropdown-open.select2-drop-above .select2-choices {
+.select2-dropdown-open.select2-drop-above .select2-choice, .select2-dropdown-open.select2-drop-above .select2-choices {
   background-image: none !important;
   border: 1px solid rgba(0, 0, 0, 0.07);
   background: #f0f0f0;
@@ -74,8 +72,7 @@ html, body {
   border-radius: 2px;
   padding-top: 0px;
 }
-.select2-container-active .select2-choice,
-.select2-container-active .select2-choices {
+.select2-container-active .select2-choice, .select2-container-active .select2-choices {
   box-shadow: none;
   border: 1px solid rgba(0, 0, 0, 0.07);
   background: #f0f0f0;
@@ -115,9 +112,7 @@ html, body {
 .select2-results .select2-highlighted .select2-result-label {
   color: #626262;
 }
-.select2-results .select2-no-results,
-.select2-results .select2-searching,
-.select2-results .select2-selection-limit {
+.select2-results .select2-no-results, .select2-results .select2-searching, .select2-results .select2-selection-limit {
   background: none;
   color: #626262;
   font-size: 12px;
@@ -174,9 +169,7 @@ html, body {
   font-size: 12px;
   color: #626262;
 }
-.select2-drop-multi .select2-results .select2-no-results,
-.select2-drop-multi .select2-results .select2-searching,
-.select2-drop-multi .select2-results .select2-selection-limit {
+.select2-drop-multi .select2-results .select2-no-results, .select2-drop-multi .select2-results .select2-searching, .select2-drop-multi .select2-results .select2-selection-limit {
   top: 0px;
 }
 .select2.form-control {

@@ -35,7 +35,7 @@ class JSONConvertible(DynamicDocument):
                 return_data.append((field_name, data))
 
             elif isinstance(obj._fields[field_name], EmbeddedDocumentField):
-                return_data.append((field_name, mongo_to_dict(data)))
+                return_data.append((field_name, to_dict(data)))
 
             elif isinstance(obj._fields[field_name], ObjectIdField):
                 return_data.append((field_name, str(data)))

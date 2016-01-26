@@ -1,10 +1,9 @@
-{% extends "base.html" %} {% block title %} {{user.first_name}}'s Places {% endblock %} {% block head %} {{ super() }}
-<link rel="stylesheet" href="static/css/home.css" media="screen" title="no title" charset="utf-8"> {% endblock %} {% block content %}
+{% extends "base.html" %} {% block title %} {{user.first_name}}'s Places {% endblock %} {% block content %}
 <nav class="header bg-header transparent-light" data-pages="header" data-pages-header="autoresize" data-pages-resize-class="dark">
   <div class="container relative">
 
 
-    <div class="pull-right menu-content mobile-dark clearfix" data-pages="menu-content" data-pages-direction="slideRight" id="header">
+    <div class="pull-right clearfix" id="header">
 
       <div class="header-inner">
         <ul class="menu">
@@ -43,7 +42,7 @@
   <div class="container">
     <div class="row">
       <div class="col-sm-6">
-        <img src="static/img/logo.png" width="200" height="21" data-src-retina="static/img/logo.png" class="logo inline m-r-50" alt="">
+        <img src="/static/img/logo.png" width="200" height="21" data-src-retina="/static/img/logo.png" class="logo inline m-r-50" alt="">
         <div class="m-t-10 ">
           <ul class="no-style fs-11 no-padding font-arial">
             <li class="inline no-padding"><a href="#" class=" text-master p-r-10 b-r b-grey">Home</a></li>
@@ -61,5 +60,5 @@
 </section>
 
 {% endblock %} {% block foot %} {{ super() }}
-<script src="static/js/profile.js" charset="utf-8"></script>
+<script src="/static/js/profile.js" charset="utf-8"></script>
 {% endblock %}
