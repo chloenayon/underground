@@ -116,7 +116,11 @@ def profile(username):
         for place in Place.objects(user=user).all():
             places.append(place.to_dict())
 
-        return render_template('profile.html', current_user=current_user.to_dict(), user=user.to_dict(), places=places)
+        if current_user is not None:
+            return render_template('profile.html', current_user=current_user.to_dict(), user=user.to_dict(), places=places)
+        else:
+            return render_template('profile.html', user=user.to_dict(), places=places)
+
 
 
 @app.route('/users/<string:username>/edit', methods=["POST"])
@@ -320,9 +324,14 @@ def page_not_found(error):
     authentication: none
     """
     current_user = get_current_user(session)
-    return render_template('404.html', current_user=current_user.to_dict()), 404
+    if current_user is not None:
+        return render_template('404.html', current_user=current_user.to_dict()), 404
+    else:
+        return render_template('404.html'), 404
 
 if __name__ == "__main__":
+    app.debug = True
+    app.config['PROPAGATE_EXCEPTIONS'] = True
     port = int(os.environ.get("PORT", 5000))
     app.secret_key = "EFAB22A53737A1C6BD7F5575A9FA1"
     app.run(host='0.0.0.0', port=port)

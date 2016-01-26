@@ -41,7 +41,7 @@ Cultivate your favorite places around the city!
 
 
 ## Installation
-`$ pip install flask mongoengine bcrypt`
+`$ pip install flask mongoengine`
 
 ## Run
 `$ python app.py`
