@@ -3,7 +3,7 @@
 Cultivate your favorite places around the city!
 
 [Live Site](http://undergroundapp.herokuapp.com)
-'/'
+##
 https://www.youtube.com/watch?v=DHAs6_p2wEw
 
 ## Pages
